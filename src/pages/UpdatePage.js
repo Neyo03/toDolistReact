@@ -1,35 +1,59 @@
 import React, { useEffect, useState } from 'react';
 
 import firebase from '../api/fireBaseConfig';
-import { useLocation } from 'react-router';
+import { useParams } from 'react-router';
 const UpdatePage = () => {
-    const location = useLocation()
-    const [titreUpdate, setTitreUpdate] = useState(null)
-    const [textUpdate, setTextUpdate] = useState(null)
 
+    const param = useParams();
+    const [titreUpdate, setTitreUpdate] = useState("")
+    const [textUpdate, setTextUpdate] = useState("")
+    const [data, setData] = useState({});
+    const [error, setError] = useState('')
+
+    // const note = firebase.database().ref('notesDb').child(param.id)
+    useEffect(()=>{
+        const dbRef = firebase.database().ref("notesDb");
+            dbRef.child(param.id).once('value').then((snapshot) => {
+        if (snapshot.exists()) {
+            setData(snapshot.val())
+        } else {
+            setError("No data available");
+        }
+        }).catch((error) => {
+            setError(error);
+        });
+    },[])
+
+    useEffect(()=>{
+        updateItem()
+    },[textUpdate,titreUpdate])
+    
     const deleteItem = ()=>{
-        let noteItem = firebase.database().ref('notesDb').child(location.state.id)
+        let noteItem = firebase.database().ref('notesDb').child(param.id)
         noteItem.remove();
+        window.location ="/"
     }
     function updateItem(){
-        let noteItem = firebase.database().ref('notesDb').child(location.state.id)
-        if (titreUpdate !==null ){
-            noteItem.update({
+        let noteItem = firebase.database().ref('notesDb').child(param.id)
+        if (titreUpdate !=="" ){
+             noteItem.update({
                 titre:titreUpdate
             })
         }
-        if (textUpdate !== null) {
-            noteItem.update({
+        if (textUpdate !== "") {
+             noteItem.update({
                 text:textUpdate
-            })
+            })  
         }
     }
+
+
     return (
-        <div>
-            <input defaultValue={location.state.titre} placeholder="Titre" onChange={(e)=> {setTitreUpdate(e.target.value)}} type="text" />
-            <textarea defaultValue={location.state.text} placeholder="Text" onChange={(e)=> {setTextUpdate(e.target.value)}}  />
-            <button onClick={updateItem}>Sauvegarder</button>    
-            <button onClick={deleteItem}>Delete</button>      
+        <div> 
+            <div>{error}</div>
+            <input defaultValue={data.titre} placeholder="Titre" onChange={(e)=> {setTitreUpdate(e.target.value)}} type="text" />
+            <textarea defaultValue={data.text} placeholder="Text" onChange={(e)=> {setTextUpdate(e.target.value)}}  />
+            <button onClick={deleteItem}>Delete</button> 
         </div>
     );
 };

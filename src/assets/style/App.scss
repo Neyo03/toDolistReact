@@ -1,0 +1,21 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box
+
+}
+
+//Spacing
+@import './Variable/Spacing.scss';
+
+//color
+@import './Variable/Colors.scss';
+
+//Component
+@import './Header.scss';
+
+body{
+    background-color: $dark;
+}
+
+

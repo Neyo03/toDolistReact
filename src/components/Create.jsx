@@ -18,7 +18,12 @@ const Create = () => {
         if (text !==""  ) {
             notesDb.push(note)
         }
-    
+        setTitre('')
+        setText('')
+        notesDb.limitToLast(1).once('value').then((querySnapshot) => {
+            console.log(querySnapshot.key);
+        })
+        
     }
     return (
         <div>

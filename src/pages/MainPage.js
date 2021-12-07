@@ -3,6 +3,8 @@ import { useAuth } from '../context/AuthContext';
 import Read from '../components/Read';
 import { Link } from 'react-router-dom';
 import LoginPage from './LoginPage';
+import Burger from '../components/Burger';
+import Header from '../components/Header';
 
 
 const MainPage = () => {
@@ -18,9 +20,10 @@ const MainPage = () => {
     }
     return (
         <div>
+            <Header/>
             {error && error}
-            {currentUser && <p>Vous êtes connecté en tant que {currentUser.email} </p> }
-            {currentUser && <button onClick={handleLogout}>SE DECONNECTER</button>}
+            {/* {currentUser && <p>Vous êtes connecté en tant que {currentUser.email} </p> }
+            {currentUser && <button onClick={handleLogout}>SE DECONNECTER</button>} */}
             {currentUser && <Link to='newNote'>+</Link>} 
             {currentUser && <Read/>}
             {!currentUser && <LoginPage/>}

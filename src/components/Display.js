@@ -18,7 +18,7 @@ const Display = ({note}) => {
     return (
         idCheck() && (
             <div>
-                <Link to={"updateNote/"+note.id} state={note}>
+                <Link to={"updateNote/"+note.id}>
                     <h3>{note.titre}</h3>
                     <p>{note.text}</p>   
                 </Link>

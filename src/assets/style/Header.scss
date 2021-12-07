@@ -1,0 +1,18 @@
+
+.Header{
+    display: flex;
+    justify-content: space-between;
+    padding: $defaultPadding;
+    background-color: $dark;
+    border-bottom: .5px $primaryLightColor solid;
+
+    &_burger_logo{
+        display: flex;
+
+    }
+    &_burger_logo img{
+        margin-left: 10px
+
+    }
+
+}
