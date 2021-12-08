@@ -1,0 +1,90 @@
+.Note{
+    
+    width: $mediumSinzing ;
+    max-height:$defaultSizing ;
+    min-height: $minSinzing;
+    
+    margin: $lowMargin ;
+    
+    padding: $defaultPadding;
+    border: $lightBorder .1px solid;
+    border-radius: 10px;
+    
+    word-wrap:break-word;
+    overflow:hidden;
+    box-shadow: 0 2px 3px rgba($color: #000, $alpha: .5);
+    &_create{
+        
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: $defaultMargin;
+        
+
+        &_form{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: $defaultPadding;
+            width: $hightSzing;
+            min-height: $lowSinzing;
+
+            border: 0.5px solid $light;
+            border-radius: 10px;
+        }
+        &_form span{
+            color: $light;
+            outline: transparent;
+            margin-top: $lowMargin;
+            overflow:unset;
+            max-width: 100%;
+            min-width: 100%;
+            min-height: $lowSinzing ;
+            font-size: $hightFontSizing;
+
+            background-color: transparent;
+            border: transparent;
+        }
+        &_form span[contenteditable]:empty::before{
+            content: "Texte";
+            color: $placeHolderlight;
+            font-size: $hightFontSizing;
+        }
+        &_form input{
+            font-size: $hightFontSizing;
+            color: $light;
+            outline: transparent;
+            width: 100%;
+            background-color: transparent;
+            border: transparent;
+        }
+        &_form input::placeholder{
+            font-size: $hightFontSizing;
+            color: $placeHolderlight;
+        }
+
+        &_button{
+            margin: $lowMargin;
+            width: 100%;
+            position: relative;
+        }
+        &_button button{
+            cursor: pointer;
+            background-color: transparent;
+            border: transparent;
+            position: absolute;
+            bottom: -10px;
+            right: 0;
+            
+        }
+
+
+    } 
+}
+.Note a{
+
+    text-decoration: none;
+    color: $light;
+}

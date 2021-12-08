@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import firebase from '../api/fireBaseConfig';
 import { UIdContext } from '../context/UIdContext';
 
@@ -20,18 +20,21 @@ const Create = () => {
         }
         setTitre('')
         setText('')
+        document.getElementsByClassName('Note_create_text')[0].innerHTML = "";
         notesDb.limitToLast(1).once('value').then((querySnapshot) => {
             console.log(querySnapshot.key);
         })
         
     }
     return (
-        <div>
-            <h4>Ecris une note</h4>
-            <form onSubmit={createNote} method="post">
+        <div className="Note_create">
+            <form className="Note_create_form" onSubmit={createNote} method="post">
                 <input value={titre} placeholder="Titre" onChange={(e)=> {setTitre(e.target.value)}} type="text" />
-                <textarea value={text} placeholder="Text" onChange={(e)=> {setText(e.target.value)}}  />
-                <button>SAUVEGARDER</button>
+                <span className="Note_create_text" role="textbox" contentEditable="true" onInput={(e)=> {setText(e.target.outerText)}}></span>
+                <div className="Note_create_button">
+                    <button >SAUVEGARDER</button>
+                </div>
+                
             </form>
         </div>
     );

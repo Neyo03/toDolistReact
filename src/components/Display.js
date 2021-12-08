@@ -5,7 +5,6 @@ import { UIdContext } from '../context/UIdContext';
 const Display = ({note}) => {
 
     const uid = useContext(UIdContext)
-
     const idCheck = ()=>{
         if (note.uid === uid) {
             return true
@@ -17,11 +16,16 @@ const Display = ({note}) => {
     idCheck();
     return (
         idCheck() && (
-            <div>
+            <div className="Note">
                 <Link to={"updateNote/"+note.id}>
                     <h3>{note.titre}</h3>
-                    <p>{note.text}</p>   
+                    <p>{note.text.substr(0, 600)}</p>   
                 </Link>
+                <div>
+                    <button>ARCHIVE</button>
+                    <button><i className="fas fa-palette"></i></button>
+                    <button>...</button>
+                </div>
             </div> 
         )
     );

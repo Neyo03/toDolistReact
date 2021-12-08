@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import firebase from '../api/fireBaseConfig';
 import Create from './Create';
-import UpdateDelete from './Display';
+import Display from './Display';
 
 
-const Read = () => {
+const Read = React.memo(() => {
     const [noteList, setNoteList]=useState([])
     
     useEffect(()=>{
@@ -19,15 +19,14 @@ const Read = () => {
         })
     }, [])
     return (
-        <div>
-            <Create/>
+        <div className="Read">
             {
                 noteList && noteList.map((note,index )=>(
-                    <UpdateDelete key={index} note={note} />
+                    <Display key={index} note={note} />
                 )) 
             }
         </div>
     );
-};
+});
 
 export default Read;

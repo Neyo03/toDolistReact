@@ -32,7 +32,7 @@ export const AuthProvider = ({children}) => {
             
         })
         return unsubscribe
-      },[])
+    },[])
 
     const value = {
         currentUser,
@@ -40,8 +40,8 @@ export const AuthProvider = ({children}) => {
         signUp, 
         logOut
     }
+    
     return (
-
         <AuthContext.Provider value={value}>
             <UIdContext.Provider value={uId}>
                 {children}

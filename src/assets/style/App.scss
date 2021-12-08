@@ -11,11 +11,23 @@
 //color
 @import './Variable/Colors.scss';
 
+
+//Sinzing
+@import './Variable/Sizing.scss';
+
 //Component
 @import './Header.scss';
+@import './Main.scss';
+@import './Read.scss';
+@import './Note.scss';
+@import './Burger.scss';
+
+
+
 
 body{
     background-color: $dark;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 
