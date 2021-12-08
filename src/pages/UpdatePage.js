@@ -53,7 +53,7 @@ const UpdatePage = () => {
             <div>{error}</div>
             <input defaultValue={data.titre} placeholder="Titre" onChange={(e)=> {setTitreUpdate(e.target.value)}} type="text" />
             <textarea defaultValue={data.text} placeholder="Text" onChange={(e)=> {setTextUpdate(e.target.value)}}  />
-            <button onClick={deleteItem}>Delete</button> 
+            
         </div>
     );
 };

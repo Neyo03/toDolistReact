@@ -22,7 +22,9 @@ const Read = React.memo(() => {
         <div className="Read">
             {
                 noteList && noteList.map((note,index )=>(
-                    <Display key={index} note={note} />
+                    
+                    <Display key={index} number={index} note={note} />
+                    
                 )) 
             }
         </div>

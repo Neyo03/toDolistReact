@@ -13,6 +13,26 @@
     word-wrap:break-word;
     overflow:hidden;
     box-shadow: 0 2px 3px rgba($color: #000, $alpha: .5);
+    position: relative;
+    
+    &_icons{
+        opacity: 0;
+        position: absolute;
+        transition: .1s ease-in;
+        bottom: 5px;
+        &_hover{
+            opacity: 1;
+            transition: .1s ease-out;
+        }
+    }
+    &_icon{
+        color: $iconsLight;
+        margin: $lowMargin;
+
+    }
+    
+   
+
     &_create{
         
         display: flex;
@@ -21,15 +41,19 @@
         justify-content: center;
         margin: $defaultMargin;
         
-
+        &_form_open{
+            min-height: $lowSinzing+65px;
+            
+        }
         &_form{
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
             padding: $defaultPadding;
             width: $hightSzing;
-            min-height: $lowSinzing;
+            height: 40px;
 
             border: 0.5px solid $light;
             border-radius: 10px;
@@ -37,6 +61,7 @@
         &_form span{
             color: $light;
             outline: transparent;
+            margin: $lowMargin;
             margin-top: $lowMargin;
             overflow:unset;
             max-width: 100%;
@@ -49,6 +74,7 @@
         }
         &_form span[contenteditable]:empty::before{
             content: "Texte";
+            
             color: $placeHolderlight;
             font-size: $hightFontSizing;
         }
@@ -63,6 +89,7 @@
         &_form input::placeholder{
             font-size: $hightFontSizing;
             color: $placeHolderlight;
+            font-weight: bolder;
         }
 
         &_button{
@@ -70,17 +97,15 @@
             width: 100%;
             position: relative;
         }
-        &_button button{
+        &_button .Note_icon{
             cursor: pointer;
             background-color: transparent;
             border: transparent;
             position: absolute;
+            color: $light;
             bottom: -10px;
-            right: 0;
-            
+            right: 0; 
         }
-
-
     } 
 }
 .Note a{
@@ -88,3 +113,7 @@
     text-decoration: none;
     color: $light;
 }
+.Note a>p{
+    margin-bottom: $defaultMargin+15;
+}
+
