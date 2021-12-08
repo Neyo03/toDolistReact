@@ -43,7 +43,7 @@
         
         &_form_open{
             min-height: $lowSinzing+65px;
-            
+            height: unset !important;
         }
         &_form{
             overflow: hidden;

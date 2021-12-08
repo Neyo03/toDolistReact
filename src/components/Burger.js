@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 import React, { useState } from 'react';
 
 const Burger = () => {
@@ -11,7 +13,7 @@ const Burger = () => {
     }
     return (
         <div className={ className } onClick={handleClick}>
-            burger
+            <FontAwesomeIcon className="Header_buger_icon" icon={faBars}/>
         </div>
     );
 };

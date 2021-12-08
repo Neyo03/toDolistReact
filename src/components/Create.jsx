@@ -45,7 +45,7 @@ const Create = () => {
                 <input value={titre} placeholder="Ajouter une note..." onClick={(e)=>handleClick(e)} onChange={(e)=> {setTitre(e.target.value)}} type="text" />
                 <span className="Note_create_text" role="textbox" contentEditable="true" onInput={(e)=> {setText(e.target.outerText)}}></span>
                 <div className="Note_create_button">
-                    <FontAwesomeIcon className="Note_icon" icon={faSave} />
+                    <FontAwesomeIcon className="Note_icon" onClick={createNote} icon={faSave} />
                 </div>
                 
             </form>

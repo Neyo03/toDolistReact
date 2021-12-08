@@ -3,6 +3,7 @@ import { faPalette, faArchive, faPaperPlane, faEllipsisV } from '@fortawesome/fr
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { UIdContext } from '../context/UIdContext';
+import MenuEllipsV from './MenuEllipsV';
 
 const Display = ({note, number}) => {
 
@@ -32,6 +33,8 @@ const Display = ({note, number}) => {
                     <FontAwesomeIcon className="Note_icon" icon={faArchive} />
                     <FontAwesomeIcon className="Note_icon" icon={faPalette} />
                     <FontAwesomeIcon className="Note_icon" icon={faEllipsisV} />
+                    <MenuEllipsV className={"fsdfsd"} note={note}/>
+
                 </div>
             </div> 
         )

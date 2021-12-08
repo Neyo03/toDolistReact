@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-
 import firebase from '../api/fireBaseConfig';
 import { useParams } from 'react-router';
 const UpdatePage = () => {
@@ -28,11 +27,7 @@ const UpdatePage = () => {
         updateItem()
     },[textUpdate,titreUpdate])
     
-    const deleteItem = ()=>{
-        let noteItem = firebase.database().ref('notesDb').child(param.id)
-        noteItem.remove();
-        window.location ="/"
-    }
+    
     function updateItem(){
         let noteItem = firebase.database().ref('notesDb').child(param.id)
         if (titreUpdate !=="" ){

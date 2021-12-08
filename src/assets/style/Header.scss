@@ -1,17 +1,24 @@
 
 .Header{
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    padding: $defaultPadding;
+    padding: $defaultPadding+5;
     background-color: $dark;
     border-bottom: .5px $primaryLightColor solid;
 
     &_burger_logo{
         display: flex;
+        align-items: center;
 
     }
     &_burger_logo img{
-        margin-left: 10px
+        margin-left: $defaultMargin
+
+    }
+    &_buger_icon{
+        font-size: $hightFontSizing+10px;
+        color: $light;
 
     }
 
