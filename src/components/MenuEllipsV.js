@@ -1,10 +1,18 @@
 import React from 'react';
 import firebase from '../api/fireBaseConfig';
 const MenuEllipsV = ({note, className, type}) => {
-    const color1 = 'salut'
-    const deleteItem = ()=>{
-        let noteItem = firebase.database().ref('notesDb').child(note.id)
-        noteItem.remove();
+
+    const deleteItem = (e)=>{
+        e.target.parentElement.parentElement.parentElement.style.transition ="0.3s"
+        e.target.parentElement.parentElement.parentElement.style.opacity ="0"
+        e.stopPropagation()
+        setTimeout(() => {
+            let noteItem = firebase.database().ref('notesDb').child(note.id)
+            noteItem.remove();
+            e.target.parentElement.parentElement.parentElement.style.opacity ="1"
+        }, 100);
+        
+        
     }
     const copieItem = ()=>{
         firebase.database().ref('notesDb').child(note.id).once('value').then((snapshot) => {
@@ -37,7 +45,13 @@ const MenuEllipsV = ({note, className, type}) => {
             <button style={ note.color=== '#FF7878' ? {backgroundColor: 'rgb(61, 61, 61)'} : null}  onClick={()=>changeColor('#FF7878')}> <div title="ROUGE" style={{backgroundColor: '#FF7878' }} ></div>  </button> 
         </div>
         : <div className={`MenuEllipsV ${className}`}>
-            <button onClick={deleteItem}>Supprimer la note</button> 
+            <button 
+            onClick=
+            {
+                (e)=>{
+                    deleteItem(e)
+                }
+            }>Supprimer la note</button> 
             <button onClick={copieItem}>Effectuer une copie</button> 
         </div>
     );
