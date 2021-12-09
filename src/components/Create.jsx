@@ -16,7 +16,8 @@ const Create = () => {
         const note = {
             uid,
             titre,
-            text
+            text,
+            color : null
         }
         if (text !==""  ) {
             notesDb.push(note)
@@ -44,10 +45,11 @@ const Create = () => {
             <form className="Note_create_form" onSubmit={createNote} method="post">
                 <input value={titre} placeholder="Ajouter une note..." onClick={(e)=>handleClick(e)} onChange={(e)=> {setTitre(e.target.value)}} type="text" />
                 <span className="Note_create_text" role="textbox" contentEditable="true" onInput={(e)=> {setText(e.target.outerText)}}></span>
-                <div className="Note_create_button">
-                    <FontAwesomeIcon className="Note_icon" onClick={createNote} icon={faSave} />
+                <div className="Note_create_buttons">
+                    <div className="Note_create_button">
+                        <FontAwesomeIcon className="Note_icon" onClick={createNote} icon={faSave} />
+                    </div>
                 </div>
-                
             </form>
         </div>
     );

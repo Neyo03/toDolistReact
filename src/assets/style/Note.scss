@@ -11,7 +11,7 @@
     border-radius: 10px;
     
     word-wrap:break-word;
-    overflow:hidden;
+    // overflow:hidden;
     box-shadow: 0 2px 3px rgba($color: #000, $alpha: .5);
     position: relative;
     
@@ -46,6 +46,7 @@
             height: unset !important;
         }
         &_form{
+            position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -101,12 +102,38 @@
             cursor: pointer;
             background-color: transparent;
             border: transparent;
-            position: absolute;
+            
             color: $light;
             bottom: -10px;
             right: 0; 
         }
+        &_button:hover{
+            background-color: rgba(88, 88, 88, .5);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            transition: .1s ease-in;
+            cursor: pointer;
+        }
+        &_button{
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            display: flex;
+            transition: .1s ease-out;
+        }
+        &_buttons{
+            cursor: pointer;
+            width: 100%;
+            align-items: flex-end;
+            justify-content: flex-end;
+            display: flex;
+        }
     } 
+    
 }
 .Note a{
 

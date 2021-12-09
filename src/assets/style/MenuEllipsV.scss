@@ -1,10 +1,87 @@
+
 .MenuEllipsV{
 
     display: flex;
     flex-direction: column; 
     align-items: flex-start;
     position: absolute;
-    right: -110px;
+    background-color: $dark; 
+    padding: $defaultPadding;
+    border-radius: 0 $lowBorderRadius $lowBorderRadius $lowBorderRadius;
+    box-shadow: 0 2px 3px rgba($color: #000, $alpha: .5);
+    overflow: hidden;
+    right: -140px;
+    bottom: -60px;
+    z-index: 10;
+    width: 0;
+    opacity: 0;
+    transition: ease-out;
+    &_open{
+        width: initial;
+        opacity: 1;
+        transition: .1s ease-in;
 
+    }
 
+}
+.MenuEllipsV button{
+    background-color: transparent;
+    border: transparent;
+    color: $light;
+    padding: 5px;
+}
+.MenuEllipsV button:hover{
+   background-color: rgb(43, 43, 43);
+   border-radius: 3px;
+   
+}
+
+.MenuColors{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    
+    position: absolute;
+    background-color: $dark; 
+    padding: $defaultPadding;
+    border-radius: $lowBorderRadius;
+    box-shadow: 0 2px 3px rgba($color: #000, $alpha: .5);
+    overflow: hidden;
+    right: 20px;
+    bottom: 34px;
+    z-index: 10;
+    width: 0;
+    pointer-events: none;
+    height: 65px;
+    opacity: 0;
+    transition: ease-out;
+    &_open{
+        
+        width: initial;
+        pointer-events: initial;
+        opacity: 1;
+        transition: .1s ease-in;
+
+    }
+}
+
+.MenuColors button{
+    background-color: transparent;
+    border: transparent;
+    border-radius: 3px;
+    padding: 5px;
+}
+.MenuColors button>div{
+    border-radius: 50%;
+    width: 13px;
+    height: 13px;
+}
+.MenuColors button:hover{
+   background-color: rgb(43, 43, 43);
+   transition: .1s ease-in-out;
+   border-radius: 3px;
+   cursor: pointer;
+   
 }

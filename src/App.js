@@ -8,7 +8,7 @@ import Create from './components/Create';
 import UpdatePage from './pages/UpdatePage';
 
 const App = () => {
-  
+ 
   return (
       <AuthProvider>
         <BrowserRouter>
