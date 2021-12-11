@@ -7,7 +7,7 @@
     margin: $lowMargin ;
     
     padding: $defaultPadding;
-    border: $lightBorder .1px solid;
+    // border: $lightBorder .1px solid;
     border-radius: 10px;
     
     word-wrap:break-word;
@@ -72,6 +72,122 @@
 
             background-color: transparent;
             border: transparent;
+        }
+        &_form span[contenteditable]:empty::before{
+            content: "Texte";
+            
+            color: $placeHolderlight;
+            font-size: $hightFontSizing;
+        }
+        &_form input{
+            font-size: $hightFontSizing;
+            color: $light;
+            outline: transparent;
+            width: 100%;
+            background-color: transparent;
+            border: transparent;
+        }
+        &_form input::placeholder{
+            font-size: $hightFontSizing;
+            color: $placeHolderlight;
+            font-weight: bolder;
+        }
+
+        &_button{
+            margin: $lowMargin;
+            width: 100%;
+            position: relative;
+        }
+        &_button .Note_icon{
+            cursor: pointer;
+            background-color: transparent;
+            border: transparent;
+            
+            color: $light;
+            bottom: -10px;
+            right: 0; 
+        }
+        &_button:hover{
+            background-color: rgba(88, 88, 88, .5);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            transition: .1s ease-in;
+            cursor: pointer;
+        }
+        &_button{
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            display: flex;
+            transition: .1s ease-out;
+        }
+        &_buttons{
+            cursor: pointer;
+            width: 100%;
+            align-items: flex-end;
+            justify-content: flex-end;
+            display: flex;
+        }
+    } 
+
+    &_update{
+        
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: $defaultMargin;
+        
+        &_form_open{
+            min-height: $lowSinzing+65px;
+            height: unset !important;
+        }
+        &_form{
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: $defaultPadding;
+            width: $hightSzing;
+
+            border: 0.5px solid $light;
+            border-radius: 10px;
+        }
+        &_form textarea{
+            overflow: scroll !important;
+            overflow-x: hidden !important;
+            resize: none;
+            color: $light;
+            outline: transparent;
+            margin: $lowMargin;
+            margin-top: $lowMargin;
+            overflow:unset;
+            max-width: 100%;
+            min-width: 100%;
+            min-height: $lowSinzing ;
+            max-height: 500px;
+            font-size: $hightFontSizing;
+
+            background-color: transparent;
+            border: transparent;
+        }
+        &_form textarea::-webkit-scrollbar {
+            width: 5px; /* width of the entire scrollbar */
+        }
+        
+        &_form textarea::-webkit-scrollbar-track {
+            background: transparent; /* color of the tracking area */
+        }
+        
+        &_form textarea::-webkit-scrollbar-thumb {
+            background-color: $light; /* color of the scroll thumb */
+            border-radius: 20px; /* roundness of the scroll thumb */
         }
         &_form span[contenteditable]:empty::before{
             content: "Texte";

@@ -1,19 +1,21 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faHome, faArchive, faTrash, faFile, faCashRegister, faClone } from '@fortawesome/free-solid-svg-icons';
 import React, { useState } from 'react';
+import { Link, BrowserRouter,Router } from 'react-router-dom';
 
 const Burger = () => {
-    //Je déclare un state visibleLinks 
-    const [visibleLinks, setVisibleLinks] = useState(false)
-    let className = "Burger " + visibleLinks ?? "visibleLinkClass"
-    //Function qui mets a jour visibleLinks à l'inverse de sa valeur ( si il est a false alors il sera a true et si il est a true alors il sera a false)
-    //C'est soi cacher sois afficher le menu burger
-    function handleClick(){
-        setVisibleLinks(!visibleLinks)
-    }
+   
     return (
-        <div className={ className } onClick={handleClick}>
-            <FontAwesomeIcon className="Header_buger_icon" icon={faBars}/>
+        <div className={`Burger ` }>
+            
+            
+            <Link to="/"><FontAwesomeIcon className="Buger_menu_icon" icon={faHome}/><span>Notes</span></Link>
+            <Link to="/libelle"><FontAwesomeIcon className="Buger_menu_icon" icon={faClone}/><span>Gérer les libellés</span></Link>
+            <Link to="/archive"><FontAwesomeIcon className="Buger_menu_icon" icon={faArchive}/><span>Archives</span></Link>
+            <Link to="/corbeille"><FontAwesomeIcon className="Buger_menu_icon" icon={faTrash}/><span>Corbeille</span></Link>
+                
+            
+            
         </div>
     );
 };

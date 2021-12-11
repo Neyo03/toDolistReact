@@ -1,0 +1,66 @@
+.Message_ERROR{
+
+    background-color: $dangerColor;
+    padding: $defaultPadding+10;
+    border-radius: $lowBorderRadius;
+    height: 50px;
+    transition : .5s ease-in-out ;
+    display: flex;
+    opacity : 0;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    color: $dangerColorDarkTEXT ;
+    &_icon{
+        color: $dangerColorDark ;
+        width: 50px;
+        margin-left: $defaultMargin ;
+    }
+}
+.Message_SUCESS{
+
+    background-color: $succesColor;
+    padding: $defaultPadding+10;
+    border-radius: $lowBorderRadius;
+    height: 50px;
+    transition : .5s ease-in-out ;
+    opacity : 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    color: $succesColorDarkTEXT ;
+    &_icon{
+        color: $succesColorDark ;
+        font-size: $hightFontSizing+5;
+
+        margin-left: $defaultMargin ;
+    }
+
+}
+.Message_AUTRE{
+
+    background-color: $normalColor;
+    padding: $defaultPadding+10;
+    border-radius: $lowBorderRadius;
+    height: 50px;
+    transition : .5s ease-in-out ;
+    display: flex;
+    opacity : 0;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    color: $normalColorDarkTEXT ;
+    &_icon{
+        color: $normalColorDark ;
+        width: 50px;
+        margin-left: $defaultMargin ;
+    }
+
+}

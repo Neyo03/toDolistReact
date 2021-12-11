@@ -1,5 +1,5 @@
 .Main{
-   
+    display: flex;
     &_body{
         display: flex;
         justify-content: center;
@@ -7,5 +7,10 @@
         width: 100%;
     }
 
-
+    &_create_read{
+        display: flex;
+        flex-direction: column;
+        max-width: 80%;
+        margin: 0 auto;
+    }
 }

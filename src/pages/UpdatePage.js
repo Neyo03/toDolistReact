@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import firebase from '../api/fireBaseConfig';
 import { useParams } from 'react-router';
+import Burger from '../components/Burger';
+import Message from '../components/Message';
+import MessageContext from '../context/MessageContext';
+import { faSave } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const UpdatePage = () => {
 
     const param = useParams();
     const [titreUpdate, setTitreUpdate] = useState("")
     const [textUpdate, setTextUpdate] = useState("")
     const [data, setData] = useState({});
-    const [error, setError] = useState('')
+    const message = useContext(MessageContext)
 
     // const note = firebase.database().ref('notesDb').child(param.id)
     useEffect(()=>{
@@ -16,13 +21,18 @@ const UpdatePage = () => {
         if (snapshot.exists()) {
             setData(snapshot.val())
         } else {
-            setError("No data available");
+            message.setMessage("Aucune données disponible.");
+            message.setTypeMessage('error')
         }
         }).catch((error) => {
-            setError(error);
+            message.setMessage(error);
+            message.setTypeMessage('error')
         });
+        
     },[])
-
+    setTimeout(() => {
+        autosize()
+    }, 100);
     useEffect(()=>{
         updateItem()
     },[textUpdate,titreUpdate])
@@ -41,15 +51,48 @@ const UpdatePage = () => {
             })  
         }
     }
+             
+    function autosize(){
+        var el = document.getElementsByClassName('Note_update_text')[0];
+        setTimeout(function(){
+            el.style.cssText = 'height:auto; padding:0';
+            // for box-sizing other than "content-box" use:
+            // el.style.cssText = '-moz-box-sizing:content-box';
+            el.style.cssText = 'height:' + el.scrollHeight + 'px';
+        },0);
+    }
 
 
     return (
-        <div> 
-            <div>{error}</div>
-            <input defaultValue={data.titre} placeholder="Titre" onChange={(e)=> {setTitreUpdate(e.target.value)}} type="text" />
-            <textarea defaultValue={data.text} placeholder="Text" onChange={(e)=> {setTextUpdate(e.target.value)}}  />
-            
+        
+        <div className="Main">
+            <Burger/>
+            <div className="Main_body">
+               
+                
+            <form className="Note_update_form" method="post">
+                <input defaultValue={data.titre} placeholder="Titre" onChange={(e)=> {setTitreUpdate(e.target.value)}} type="text" />
+                <textarea 
+                    className="Note_update_text" 
+                    defaultValue={data.text} 
+                    placeholder="Text" 
+                    onChange={
+                        (e)=> {
+                            setTextUpdate(e.target.value)
+                            autosize()
+                        }
+
+                    }  />
+                <div className="Note_create_buttons">
+                    <div className="Note_create_button">
+                        <FontAwesomeIcon className="Note_icon" onClick={updateItem} icon={faSave} />
+                    </div>
+                </div>
+            </form>
+
+            </div>
         </div>
+        
     );
 };
 

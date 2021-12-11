@@ -1,9 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPalette, faArchive, faPaperPlane, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import { faPalette, faArchive, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { UIdContext } from '../context/UIdContext';
-import MenuEllipsV from './MenuEllipsV';
+import MenuEllipsV from './Menu';
+import firebase from '../api/fireBaseConfig';
+import MessageContext from '../context/MessageContext';
 
 const Display = ({note, number}) => {
 
@@ -11,6 +13,7 @@ const Display = ({note, number}) => {
     const [openMenuColors, setOpenMenuColors] = useState(false)
    
     const uid = useContext(UIdContext)
+    const message = useContext(MessageContext)
 
     function handleOver(index) {
         document.getElementsByClassName('Note_icons')[index].classList.toggle('Note_icons_hover')
@@ -19,6 +22,36 @@ const Display = ({note, number}) => {
     function nl2br (str, is_xhtml) {   
         var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';    
         return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1'+ breakTag +'$2');
+    }
+    function handleArchive(e) {
+        
+        let noteItem = note.archive ? firebase.database().ref('notesDbArchive').child(note.id) : firebase.database().ref('notesDb').child(note.id);
+       
+        const nouvelleNote = {
+            uid : note.uid ,
+            titre : note.titre, 
+            text :  note.text,
+            color : note.color,
+            archive : !note.archive
+        }
+        
+        if ( note.archive ) {
+            message.setMessage('Archivage annulée') 
+            message.setTypeMessage("sucess")
+        }
+        else{
+            message.setMessage('Note archivée') 
+            message.setTypeMessage("sucess")
+        }
+        
+        e.target.parentElement.parentElement.parentElement.style.transition ="0.3s"
+        e.target.parentElement.parentElement.parentElement.style.opacity ="0"
+        const notesDb = note.archive ? firebase.database().ref('notesDb') : firebase.database().ref('notesDbArchive')
+        notesDb.push(nouvelleNote)
+        setTimeout(() => {
+            noteItem.remove();
+            e.target.parentElement.parentElement.parentElement.style.opacity ="1"
+        }, 100);
     }
     
     document.getElementsByClassName('Read')[0].addEventListener("mouseover",(e)=>{
@@ -39,17 +72,24 @@ const Display = ({note, number}) => {
         }
     }
     idCheck();
-    console.log(note.color);
     return (
         idCheck() && (
-             <div className="Note" style={ note.color  && { backgroundColor : note.color, transition: ".3s linear", border: "none"}} onMouseOver={()=>handleOver(number)} onMouseOut={()=>handleOver(number)} >
+             <div className="Note" style={ note.color !== "default" ? { backgroundColor : note.color, transition: ".3s linear", border: "none"}: null} onMouseOver={()=>handleOver(number)} onMouseOut={()=>handleOver(number)} >
                 <Link to={"updateNote/"+note.id}>
                     <h3>{note.titre}</h3>
                     <p>{nl2br(note.text.substr(0, 600))}</p>   
                 </Link>
                 <div className="Note_icons">
-                    <FontAwesomeIcon className="Note_icon" icon={faArchive} />
-                    <FontAwesomeIcon 
+                   {!note.corbeille && <FontAwesomeIcon 
+                        className="Note_icon" 
+                        onClick={(e)=>{handleArchive(e)}} 
+                        onMouseOver={()=>{
+                            setOpenMenuColors(false) 
+                            setOpenMenu(false)
+                        }} 
+                        icon={faArchive} 
+                    />}
+                    {!note.corbeille && <FontAwesomeIcon 
                         className="Note_icon" 
                         onMouseOver={()=>
                             {
@@ -57,7 +97,7 @@ const Display = ({note, number}) => {
                                 setOpenMenu(false)
                             }
                         } 
-                        icon={faPalette} />
+                        icon={faPalette} />}
                     <MenuEllipsV type={'colors'} className={openMenuColors && 'MenuColors_open'}  note={note}/>
                     <FontAwesomeIcon 
                     className="Note_icon" 
@@ -71,6 +111,7 @@ const Display = ({note, number}) => {
                     icon={faEllipsisV} />
                     <MenuEllipsV type={'menuEllips'} className={openMenu && 'MenuEllipsV_open'} note={note}/>
                 </div>
+                
             </div> 
         )
     );

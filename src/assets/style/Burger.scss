@@ -1,0 +1,48 @@
+.Burger{
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    height: 90vh;
+    padding: $defaultPadding+15;
+    // position: absolute;
+    left: 0;
+    top: 84px;
+    transition: .3s ease-in;
+    width: 105px;
+    overflow: hidden;
+}
+.Burger>a{
+
+    margin: $defaultMargin $defaultMargin $defaultMargin+15 5px;
+    display: flex;
+    flex-wrap: nowrap;
+    word-wrap:unset;
+    word-break: unset;
+    font-size: $hightFontSizing;
+    color: $light;
+    text-decoration: none;
+}
+.Burger>a>svg{
+    
+    margin-right: $defaultMargin;
+    font-size: $hightFontSizing+5;
+    color: $light;
+}
+.Burger>a>span{
+    
+    display: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: $light;
+    font-size: $hightFontSizing+2;
+}
+.visibleLinkClass{
+    transition: .3s ease-out;
+    width: 250px;
+}
+.visibleLinkClass>a>span{
+    display: initial !important;
+}

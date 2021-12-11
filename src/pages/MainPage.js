@@ -1,31 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import Read from '../components/Read';
-import { Link } from 'react-router-dom';
-import Header from '../components/Header';
 import Create from '../components/Create';
+import Burger from '../components/Burger';
+import MessageContext from '../context/MessageContext';
 
 
 const MainPage = () => {
-    const [error, setError] = useState('')
     const {currentUser, logOut} = useAuth()
+    const message = useContext(MessageContext)
     async function handleLogout() {
-        setError('')
        try{
          await logOut()
        } catch {
-        setError('Deconnexion impossible')
+        message.setMessage('Deconnexion impossible')
+        message.setTypeMessage('error')
+
        }
     }
     return (
         <div className="Main">
-            <Header/>
-            {currentUser && <Create/>}
-            <div className="Main_body">
-                {error && error}
-                {/* {currentUser && <p>Vous êtes connecté en tant que {currentUser.email} </p> }
-                {currentUser && <button onClick={handleLogout}>SE DECONNECTER</button>} */}
-                {currentUser && <Read/>}
+            <Burger/>
+            <div className='Main_create_read'>
+                {currentUser && <Create/>}
+                <div className="Main_body">
+                    {/* {currentUser && <p>Vous êtes connecté en tant que {currentUser.email} </p> }
+                    {currentUser && <button onClick={handleLogout}>SE DECONNECTER</button>} */}
+                    {currentUser && <Read/>}
+                </div>
             </div>
            
         </div>

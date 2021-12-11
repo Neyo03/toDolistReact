@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import firebase from '../api/fireBaseConfig';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
 
@@ -17,7 +17,9 @@ const Create = () => {
             uid,
             titre,
             text,
-            color : null
+            color : "default",
+            archive : false, 
+            corbeille : false
         }
         if (text !==""  ) {
             notesDb.push(note)
@@ -25,9 +27,6 @@ const Create = () => {
         setTitre('')
         setText('')
         document.getElementsByClassName('Note_create_text')[0].innerHTML = "";
-        notesDb.limitToLast(1).once('value').then((querySnapshot) => {
-            console.log(querySnapshot.key);
-        })
         
     }
     function handleClick(e) {
