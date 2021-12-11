@@ -15,7 +15,8 @@ const MenuEllipsV = ({note, className, type}) => {
     }
 
     const deleteItem = (e)=>{
-        
+        e.target.parentElement.parentElement.parentElement.style.transition ="0.3s"
+        e.target.parentElement.parentElement.parentElement.style.opacity ="0"
         let noteItem = note.corbeille ? firebase.database().ref('notesDbCorbeille').child(note.id) : note.archive ? firebase.database().ref('notesDbArchive').child(note.id) : firebase.database().ref('notesDb').child(note.id);
         
         if ( note.corbeille ) {
@@ -27,8 +28,7 @@ const MenuEllipsV = ({note, className, type}) => {
             message.setTypeMessage("sucess")
         }
         
-        e.target.parentElement.parentElement.parentElement.style.transition ="0.3s"
-        e.target.parentElement.parentElement.parentElement.style.opacity ="0"
+        
         const notesDb = note.corbeille ? firebase.database().ref('notesDb') : firebase.database().ref('notesDbCorbeille')
 
         !note.corbeille && notesDb.push(nouvelleNote)
@@ -36,7 +36,7 @@ const MenuEllipsV = ({note, className, type}) => {
         setTimeout(() => {
             noteItem.remove();
             e.target.parentElement.parentElement.parentElement.style.opacity ="1"
-        }, 100);
+        },100);
      
     }
 

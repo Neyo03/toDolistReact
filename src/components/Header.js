@@ -9,11 +9,13 @@ const Header = () => {
          
      }
      function handleFocus(e) {
+        e.stopPropagation()
         document.getElementsByClassName('Header_input_icon')[0].children[0].style.color = '#333'
         document.getElementsByClassName('Header_input_icon')[0].children[1].style.color = '#333'
         document.getElementsByClassName('Header_input_icon')[0].style.backgroundColor = "#f1f1f1"
      }
-     document.body.addEventListener('focusout', ()=>{
+     document.body.addEventListener('focusout', (e)=>{
+        e.stopPropagation()
         document.getElementsByClassName('Header_input_icon')[0].children[0].style.color = ''
         document.getElementsByClassName('Header_input_icon')[0].children[1].style.color = ''
         document.getElementsByClassName('Header_input_icon')[0].style.backgroundColor = ""
