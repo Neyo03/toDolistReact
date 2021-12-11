@@ -16,7 +16,7 @@ const MenuEllipsV = ({note, className, type}) => {
 
     const deleteItem = (e)=>{
         
-        let noteItem = note.corbeille ? firebase.database().ref('notesDbCorbeille').child(note.id) : firebase.database().ref('notesDb').child(note.id);
+        let noteItem = note.corbeille ? firebase.database().ref('notesDbCorbeille').child(note.id) : note.archive ? firebase.database().ref('notesDbArchive').child(note.id) : firebase.database().ref('notesDb').child(note.id);
         
         if ( note.corbeille ) {
             message.setMessage('La note a été supprimée avec succès.') 
@@ -62,7 +62,8 @@ const MenuEllipsV = ({note, className, type}) => {
 
     }
     const copieItem = ()=>{
-        firebase.database().ref('notesDb').push({
+        const noteDb = note.archive ? firebase.database().ref('notesDbArchive') : firebase.database().ref('notesDb')
+        noteDb.push({
             uid : note.uid ,
             titre : note.titre, 
             text :  note.text,
@@ -74,7 +75,7 @@ const MenuEllipsV = ({note, className, type}) => {
         message.setTypeMessage("sucess")
     }
     const changeColor = (color)=>{
-        let noteItem = firebase.database().ref('notesDb').child(note.id)
+        let noteItem = note.archive ? firebase.database().ref('notesDbArchive').child(note.id) : firebase.database().ref('notesDb').child(note.id);
         if (color ){
              noteItem.update({
                 color : color

@@ -21,5 +21,44 @@
         color: $light;
 
     }
+    &_search{
+       
+        width: 80%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+    }
+    &_search>div{ 
+        display: flex;
+        align-items: center;
+        padding: $defaultPadding;
+        background-color: $placeHolderlight  ;
+        height: 45px;
+        width: 50%;
+        border-radius: $lowBorderRadius;
+        
+    }
+    &_search>div>svg{ 
+        font-size: $hightFontSizing;
+        
+    }
+    &_search>div>input{
+        width: 100%;
+        padding: $defaultPadding;
+        background-color: transparent  ;
+        outline: transparent;
+        border-radius: $lowBorderRadius;
+        border: transparent;
+        margin: $lowMargin;
+        color: $light;
+    }
+    &_search>div>input::placeholder{
+        color: $light;
+        font-weight: bolder;
+    }
+    &_search_icon{
+        color: $light;
+    }
 
 }

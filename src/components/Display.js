@@ -32,7 +32,8 @@ const Display = ({note, number}) => {
             titre : note.titre, 
             text :  note.text,
             color : note.color,
-            archive : !note.archive
+            archive : !note.archive,
+            corbeille : note.corbeille
         }
         
         if ( note.archive ) {
@@ -76,8 +77,8 @@ const Display = ({note, number}) => {
         idCheck() && (
              <div className="Note" style={ note.color !== "default" ? { backgroundColor : note.color, transition: ".3s linear", border: "none"}: null} onMouseOver={()=>handleOver(number)} onMouseOut={()=>handleOver(number)} >
                 <Link to={"updateNote/"+note.id}>
-                    <h3>{note.titre}</h3>
-                    <p>{nl2br(note.text.substr(0, 600))}</p>   
+                    <h3>{note.titre.substr(0, 30)}...</h3>
+                    <p>{nl2br(note.text.substr(0, 500))}...</p>   
                 </Link>
                 <div className="Note_icons">
                    {!note.corbeille && <FontAwesomeIcon 

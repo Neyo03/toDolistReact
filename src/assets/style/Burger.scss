@@ -15,7 +15,7 @@
 }
 .Burger>a{
 
-    margin: $defaultMargin $defaultMargin $defaultMargin+15 5px;
+    margin: $defaultMargin $defaultMargin $defaultMargin+15 0;
     display: flex;
     flex-wrap: nowrap;
     word-wrap:unset;
@@ -31,7 +31,6 @@
     color: $light;
 }
 .Burger>a>span{
-    
     display: none;
     overflow: hidden;
     text-overflow: ellipsis;

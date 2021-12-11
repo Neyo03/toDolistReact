@@ -255,8 +255,14 @@
 
     text-decoration: none;
     color: $light;
+   
+
 }
 .Note a>p{
     margin-bottom: $defaultMargin+15;
+    margin-top: $lowMargin;
+    
+    
 }
+
 

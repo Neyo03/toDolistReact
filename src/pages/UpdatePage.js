@@ -9,10 +9,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const UpdatePage = () => {
 
     const param = useParams();
+
     const [titreUpdate, setTitreUpdate] = useState("")
     const [textUpdate, setTextUpdate] = useState("")
     const [data, setData] = useState({});
+
     const message = useContext(MessageContext)
+
+    let typingTimer;               
+    const doneTypingInterval = 1000;  
 
     // const note = firebase.database().ref('notesDb').child(param.id)
     useEffect(()=>{
@@ -35,6 +40,7 @@ const UpdatePage = () => {
     }, 100);
     useEffect(()=>{
         updateItem()
+        
     },[textUpdate,titreUpdate])
     
     
@@ -50,6 +56,7 @@ const UpdatePage = () => {
                 text:textUpdate
             })  
         }
+        
     }
              
     function autosize(){
@@ -62,6 +69,18 @@ const UpdatePage = () => {
         },0);
     }
 
+    function handleKeyUp() {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(messageSave, doneTypingInterval);  
+    }
+    function handleKeyDOWN() {
+        clearTimeout(typingTimer);
+    }
+    function messageSave () {
+        message.setMessage('Note modifiée avec succès !');
+        message.setTypeMessage('sucess')
+    }
+
 
     return (
         
@@ -71,8 +90,10 @@ const UpdatePage = () => {
                
                 
             <form className="Note_update_form" method="post">
-                <input defaultValue={data.titre} placeholder="Titre" onChange={(e)=> {setTitreUpdate(e.target.value)}} type="text" />
+                <input defaultValue={data.titre} placeholder="Titre" onKeyUp={handleKeyUp} onKeyDown={handleKeyDOWN} onChange={(e)=> {setTitreUpdate(e.target.value)}} type="text" />
                 <textarea 
+                    onKeyUp={handleKeyUp} 
+                    onKeyDown={handleKeyDOWN}
                     className="Note_update_text" 
                     defaultValue={data.text} 
                     placeholder="Text" 
@@ -85,12 +106,16 @@ const UpdatePage = () => {
                     }  />
                 <div className="Note_create_buttons">
                     <div className="Note_create_button">
-                        <FontAwesomeIcon className="Note_icon" onClick={updateItem} icon={faSave} />
+                        <FontAwesomeIcon className="Note_icon" onClick={()=>{
+                            updateItem()
+                            messageSave()
+                        }} icon={faSave} />
                     </div>
                 </div>
             </form>
 
             </div>
+            <Message message={message.message} type={message.typeMessage} />
         </div>
         
     );

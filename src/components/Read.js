@@ -6,11 +6,17 @@ import MessageContext from '../context/MessageContext';
 
 const Read = React.memo(() => {
     const [noteList, setNoteList]=useState([])
+    const [searchValue, setSearchValue] = useState('')
     const message = useContext(MessageContext)
     
     useEffect(()=>{
+
+        
+        document.getElementsByClassName('Header_search_bar')[0].addEventListener('input', (e)=>{
+            setSearchValue(e.target.value)
+        })
         const notesDb = window.location.pathname ==="/archive" ? firebase.database().ref('notesDbArchive') : window.location.pathname ==="/corbeille" ? firebase.database().ref('notesDbCorbeille') : firebase.database().ref('notesDb')  
-        notesDb.on('value', (snapshot) =>{
+        notesDb.orderByChild('titre').startAt(searchValue).endAt("~").on('value', (snapshot) =>{
             let previousList = snapshot.val()
             let list =[];
             for (let id in previousList) {
@@ -18,7 +24,7 @@ const Read = React.memo(() => {
             }
             setNoteList(list)
         })
-    }, [])
+    }, [searchValue])
     return (
         <div className="Read">
             {
