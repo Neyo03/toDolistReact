@@ -16,10 +16,11 @@ const Read = React.memo(() => {
             setSearchValue(e.target.value)
         })
         const notesDb = window.location.pathname ==="/archive" ? firebase.database().ref('notesDbArchive') : window.location.pathname ==="/corbeille" ? firebase.database().ref('notesDbCorbeille') : firebase.database().ref('notesDb')  
-        notesDb.orderByChild('titre').startAt(searchValue).endAt("~").on('value', (snapshot) =>{
+        notesDb.orderByChild('titre').startAt(searchValue).endAt(searchValue+"\uf8ff").on('value', (snapshot) =>{
             let previousList = snapshot.val()
             let list =[];
             for (let id in previousList) {
+                console.log(previousList);
                 list.push({id,...previousList[id]})  
             }
             setNoteList(list)
