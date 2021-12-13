@@ -4,7 +4,7 @@ import MessageContext from '../context/MessageContext';
 const MenuEllipsV = ({note, className, type}) => {
 
     const message = useContext(MessageContext)
-
+    let deleteTimeout;
     const nouvelleNote = {
         uid : note.uid ,
         titre : note.titre, 
@@ -15,28 +15,37 @@ const MenuEllipsV = ({note, className, type}) => {
     }
 
     const deleteItem = (e)=>{
-        e.target.parentElement.parentElement.parentElement.style.transition ="0.3s"
+        
         e.target.parentElement.parentElement.parentElement.style.opacity ="0"
         let noteItem = note.corbeille ? firebase.database().ref('notesDbCorbeille').child(note.id) : note.archive ? firebase.database().ref('notesDbArchive').child(note.id) : firebase.database().ref('notesDb').child(note.id);
-        
-        if ( note.corbeille ) {
-            message.setMessage('La note a été supprimée avec succès.') 
-            message.setTypeMessage("sucess")
-        }
-        else{
-            message.setMessage('Note placée dans la corbeille.') 
-            message.setTypeMessage("sucess")
-        }
         
         
         const notesDb = note.corbeille ? firebase.database().ref('notesDb') : firebase.database().ref('notesDbCorbeille')
 
         !note.corbeille && notesDb.push(nouvelleNote)
-
+        
+       
+        e.target.parentElement.parentElement.parentElement.style.opacity ="1"
         setTimeout(() => {
-            noteItem.remove();
-            e.target.parentElement.parentElement.parentElement.style.opacity ="1"
+            console.log(noteItem);
+            noteItem.remove().then(()=>{
+                if ( note.corbeille ) {
+                    message.setMessage('La note a été supprimée avec succès.') 
+                    message.setTypeMessage("sucess")
+                }
+                else{
+                    message.setMessage('Note placée dans la corbeille.') 
+                    message.setTypeMessage("sucess")
+                }
+            })
+            .catch(()=>{
+                message.setMessage('Impossible de supprimer la note.') 
+                message.setTypeMessage("error")
+            })
+            
         },100);
+        e.stopPropagation()
+        
      
     }
 

@@ -27,7 +27,6 @@ const UpdatePage = () => {
             setData(snapshot.val())
             
         } else {
-            console.log(data);
             message.setMessage("Aucune données disponible.");
             message.setTypeMessage('error')
         }

@@ -4,7 +4,7 @@ import Display from './Display';
 import Message from './Message';
 import MessageContext from '../context/MessageContext';
 
-const Read = React.memo(() => {
+const Read = () => {
     const [noteList, setNoteList]=useState([])
     const [searchValue, setSearchValue] = useState('')
     const message = useContext(MessageContext)
@@ -17,15 +17,18 @@ const Read = React.memo(() => {
             e.stopPropagation()
         })
         const notesDb = window.location.pathname ==="/archive" ? firebase.database().ref('notesDbArchive') : window.location.pathname ==="/corbeille" ? firebase.database().ref('notesDbCorbeille') : firebase.database().ref('notesDb')  
-        notesDb.orderByChild('titre').startAt(searchValue).endAt(searchValue+"\uf8ff").on('value', (snapshot) =>{
+        const dbMethod = searchValue !=='' ? notesDb.orderByChild('titre').startAt(searchValue).endAt(searchValue+"\uf8ff") : notesDb
+        dbMethod.on('value', (snapshot) =>{
             let previousList = snapshot.val()
             let list =[];
             for (let id in previousList) {
                 list.push({id,...previousList[id]})  
             }
-            setNoteList(list)
-        })
-    }, [searchValue])
+            setNoteList(list) 
+            
+        }) 
+        
+    }, [searchValue, message])
     return (
         <div className="Read">
             {
@@ -36,6 +39,6 @@ const Read = React.memo(() => {
             <Message message={message.message} type={message.typeMessage} />
         </div>
     );
-});
+};
 
 export default Read;

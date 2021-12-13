@@ -4,11 +4,15 @@ import { faSave } from '@fortawesome/free-solid-svg-icons';
 
 import { UIdContext } from '../context/UIdContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import MessageContext from '../context/MessageContext';
 
 const Create = () => {
     const [titre, setTitre]  =useState('')
     const [text, setText] =useState('')
     const uid = useContext(UIdContext)
+    const message = useContext(MessageContext)
+
+
 
     const createNote = (e)=>{
         e.preventDefault()
@@ -21,9 +25,15 @@ const Create = () => {
             archive : false, 
             corbeille : false
         }
-        if (text !==""  ) {
+        if(text !==""){ 
             notesDb.push(note)
+            message.setMessage('Note créée.') 
+            message.setTypeMessage('sucess')
+        }else{
+            message.setMessage('Impossible de créer une note avec un text vide.') 
+            message.setTypeMessage('error')
         }
+        
         setTitre('')
         setText('')
         document.getElementsByClassName('Note_create_text')[0].innerHTML = "";

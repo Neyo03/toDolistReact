@@ -15,7 +15,6 @@ const MainPage = () => {
        } catch {
         message.setMessage('Deconnexion impossible')
         message.setTypeMessage('error')
-
        }
     }
     return (
