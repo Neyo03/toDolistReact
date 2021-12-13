@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPalette, faArchive, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { UIdContext } from '../context/UIdContext';
 import MenuEllipsV from './Menu';
@@ -14,6 +14,15 @@ const Display = ({note, number}) => {
    
     const uid = useContext(UIdContext)
     const message = useContext(MessageContext)
+    const today = new Date();
+    const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    
+    useEffect(()=>{
+        if (window.location.pathname ==="/corbeille" && note.dateNote+7 === date ) {
+            let noteItem = firebase.database().ref('notesDbCorbeille').child(note.id);
+            noteItem.remove()
+        }
+    },[])
 
     function handleOver(index) {
         document.getElementsByClassName('Note_icons')[index].classList.toggle('Note_icons_hover')
@@ -33,7 +42,8 @@ const Display = ({note, number}) => {
             text :  note.text,
             color : note.color,
             archive : !note.archive,
-            corbeille : note.corbeille
+            corbeille : note.corbeille, 
+            dateNote: note.dateNote
         }
         
         if ( note.archive ) {

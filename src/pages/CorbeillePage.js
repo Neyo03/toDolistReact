@@ -8,12 +8,10 @@ const CorbeillePage = () => {
     const {currentUser} = useAuth()
     const message = useContext(MessageContext)
     useEffect(()=>{
-
         message.setMessage('Les notes dans la corbeille sont conservées pendant 7 jours')
         message.setTypeMessage('autre')
-
-
     },[])
+
     return (
         <div className="Main">
             <Burger/>

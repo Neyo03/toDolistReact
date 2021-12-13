@@ -12,6 +12,8 @@ const Create = () => {
     const uid = useContext(UIdContext)
     const message = useContext(MessageContext)
 
+    const today = new Date();
+    const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
 
 
     const createNote = (e)=>{
@@ -23,7 +25,8 @@ const Create = () => {
             text,
             color : "default",
             archive : false, 
-            corbeille : false
+            corbeille : false, 
+            dateNote : date
         }
         if(text !==""){ 
             notesDb.push(note)

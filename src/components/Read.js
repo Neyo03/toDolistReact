@@ -8,16 +8,19 @@ const Read = () => {
     const [noteList, setNoteList]=useState([])
     const [searchValue, setSearchValue] = useState('')
     const message = useContext(MessageContext)
-    
-    useEffect(()=>{
 
-        
+   
+
+    useEffect(()=>{
         document.getElementsByClassName('Header_search_bar')[0].addEventListener('input', (e)=>{
             setSearchValue(e.target.value)
             e.stopPropagation()
         })
+
         const notesDb = window.location.pathname ==="/archive" ? firebase.database().ref('notesDbArchive') : window.location.pathname ==="/corbeille" ? firebase.database().ref('notesDbCorbeille') : firebase.database().ref('notesDb')  
+
         const dbMethod = searchValue !=='' ? notesDb.orderByChild('titre').startAt(searchValue).endAt(searchValue+"\uf8ff") : notesDb
+
         dbMethod.on('value', (snapshot) =>{
             let previousList = snapshot.val()
             let list =[];
@@ -28,11 +31,12 @@ const Read = () => {
             
         }) 
         
-    }, [searchValue, message])
+    }, [searchValue, message ])
     return (
         <div className="Read">
             {
                 noteList && noteList.map((note,index )=>(
+                    
                     <Display key={index} number={index} note={note} />
                 )) 
             }

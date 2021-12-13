@@ -4,15 +4,17 @@ import MessageContext from '../context/MessageContext';
 const MenuEllipsV = ({note, className, type}) => {
 
     const message = useContext(MessageContext)
-    let deleteTimeout;
     const nouvelleNote = {
         uid : note.uid ,
         titre : note.titre, 
         text :  note.text,
         color : note.color,
         archive : note.archive,
-        corbeille : !note.corbeille
+        corbeille : !note.corbeille, 
+        dateNote : note.dateNote
     }
+
+    
 
     const deleteItem = (e)=>{
         
@@ -78,16 +80,17 @@ const MenuEllipsV = ({note, className, type}) => {
             text :  note.text,
             color : note.color,
             archive : note.archive,
-            corbeille : note.corbeille
+            corbeille : note.corbeille,
+            dateNote: note.dateNote
         })
         message.setMessage('Note copiée.') 
         message.setTypeMessage("sucess")
     }
     const changeColor = (color)=>{
         let noteItem = note.archive ? firebase.database().ref('notesDbArchive').child(note.id) : firebase.database().ref('notesDb').child(note.id);
-        if (color ){
+        if (color){
              noteItem.update({
-                color : color
+                color : color === note.color ? 'default' : color
             })
         }
         
