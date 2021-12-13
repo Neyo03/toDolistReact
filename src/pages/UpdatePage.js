@@ -12,7 +12,7 @@ const UpdatePage = () => {
 
     const [titreUpdate, setTitreUpdate] = useState("")
     const [textUpdate, setTextUpdate] = useState("")
-    const [data, setData] = useState({});
+    const [data, setData] = useState(null);
 
     const message = useContext(MessageContext)
 
@@ -25,7 +25,9 @@ const UpdatePage = () => {
             dbRef.child(param.id).once('value').then((snapshot) => {
         if (snapshot.exists()) {
             setData(snapshot.val())
+            
         } else {
+            console.log(data);
             message.setMessage("Aucune données disponible.");
             message.setTypeMessage('error')
         }
@@ -61,6 +63,7 @@ const UpdatePage = () => {
              
     function autosize(){
         var el = document.getElementsByClassName('Note_update_text')[0];
+        data !==null ??
         setTimeout(function(){
             el.style.cssText = 'height:auto; padding:0';
             // for box-sizing other than "content-box" use:
@@ -88,7 +91,7 @@ const UpdatePage = () => {
             <Burger/>
             <div className="Main_body">
                
-                
+        {data !==null && 
             <form className="Note_update_form" method="post">
                 <input defaultValue={data.titre} placeholder="Titre" onKeyUp={handleKeyUp} onKeyDown={handleKeyDOWN} onChange={(e)=> {setTitreUpdate(e.target.value)}} type="text" />
                 <textarea 
@@ -113,7 +116,7 @@ const UpdatePage = () => {
                     </div>
                 </div>
             </form>
-
+        }   
             </div>
             <Message message={message.message} type={message.typeMessage} />
         </div>

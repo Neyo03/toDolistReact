@@ -9,7 +9,7 @@ const CorbeillePage = () => {
     const message = useContext(MessageContext)
     useEffect(()=>{
 
-        message.setMessage('Les notes dans la corbeille sont conservée pendant 7 jours')
+        message.setMessage('Les notes dans la corbeille sont conservées pendant 7 jours')
         message.setTypeMessage('autre')
 
 
