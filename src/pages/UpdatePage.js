@@ -37,6 +37,7 @@ const UpdatePage = () => {
         
     },[])
     setTimeout(() => {
+        data &&
         autosize()
     }, 100);
     useEffect(()=>{

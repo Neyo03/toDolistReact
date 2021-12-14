@@ -8,13 +8,21 @@ import { ReloadReadContext } from '../context/ReloadReadAfterActions';
 const Read = () => {
     const [noteList, setNoteList]=useState([])
     const [searchValue, setSearchValue] = useState('')
+    
+
     const message = useContext(MessageContext)
     const reload = useContext(ReloadReadContext)
 
+    
+   
+
     document.addEventListener("selectionchange",(event)=>{
         let selection = document.getSelection ? document.getSelection().toString() :  document.selection.createRange().toString() ;
-        console.log(selection);
+        // console.log(selection);
     })
+
+   
+   
    
 
     useEffect(()=>{

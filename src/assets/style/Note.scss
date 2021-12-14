@@ -1,5 +1,9 @@
 .Note{
-    
+    &_selected{
+        transition :.2s ease-in-out ; 
+        border :3px solid #f1f1f1 !important   ;
+        box-shadow :0 7px 30px rgba(100,100,100,.2) ;
+    }
     width: $mediumSinzing ;
     max-height:$defaultSizing ;
     min-height: $minSinzing;

@@ -29,7 +29,6 @@ const Display = ({note, number}) => {
         }
         //Ajout du text de la note directement dans sa balise <p> pour que les <br> s'affiche correctement
         document.getElementsByClassName('textNote')[number].innerHTML = nl2br(note.text.substr(0, 500))
-        console.log('salut');
     },[note, reload.reload])
 
     function handleOver(index) {
@@ -98,8 +97,8 @@ const Display = ({note, number}) => {
     return (
         idCheck() && (
              <div className="Note" style={ note.color !== "default" ? { backgroundColor : note.color, transition: ".3s linear", border: "none"}: null} onMouseOver={()=>handleOver(number)} onMouseOut={()=>handleOver(number)} >
-                <Link to={"updateNote/"+note.id}>
-                    <h3>{note.titre.substr(0, 30)}...</h3>
+                <Link to={!note.corbeille ? "/updateNote/"+note.id : ''}>
+                    <h3>{note.titre.substr(0, 30)} {note.titre ? '...' : ''}</h3>
                     <p className='textNote'></p>   
                 </Link>
                 <div className="Note_icons">
