@@ -27,8 +27,10 @@ const Display = ({note, number}) => {
             let noteItem = firebase.database().ref('notesDbCorbeille').child(note.id);
             noteItem.remove()
         }
-        document.getElementById('text').innerHTML = nl2br(note.text.substr(0, 500))
-    },[])
+        //Ajout du text de la note directement dans sa balise <p> pour que les <br> s'affiche correctement
+        document.getElementsByClassName('textNote')[number].innerHTML = nl2br(note.text.substr(0, 500))
+        console.log('salut');
+    },[note, reload.reload])
 
     function handleOver(index) {
         document.getElementsByClassName('Note_icons')[index].classList.toggle('Note_icons_hover')
@@ -98,7 +100,7 @@ const Display = ({note, number}) => {
              <div className="Note" style={ note.color !== "default" ? { backgroundColor : note.color, transition: ".3s linear", border: "none"}: null} onMouseOver={()=>handleOver(number)} onMouseOut={()=>handleOver(number)} >
                 <Link to={"updateNote/"+note.id}>
                     <h3>{note.titre.substr(0, 30)}...</h3>
-                    <p id='text'></p>   
+                    <p className='textNote'></p>   
                 </Link>
                 <div className="Note_icons">
                    {!note.corbeille && <FontAwesomeIcon 
