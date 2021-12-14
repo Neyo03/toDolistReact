@@ -1,7 +1,7 @@
 import { faBars, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect } from 'react';
-import Burger from './Burger';
+import React from 'react';
+
 
 const Header = () => {
      function handleClick(){
@@ -24,7 +24,7 @@ const Header = () => {
         <div className="Header">
             <div className="Header_burger_logo">
                 <FontAwesomeIcon onClick={handleClick} className="Header_buger_icon" icon={faBars}/>
-                <img src="https://fakeimg.pl/50/"/>
+                <img src="https://fakeimg.pl/50/" alt='image header'/>
             </div>
             <div className="Header_search">
                 <div className='Header_input_icon'>
@@ -33,8 +33,8 @@ const Header = () => {
                 </div>
             </div>
             <div className="Header_profil">
-                <img src="https://fakeimg.pl/50/"/>
-                <img src="https://fakeimg.pl/50/"/>
+                <img src="https://fakeimg.pl/50/" alt='image header'/>
+                <img src="https://fakeimg.pl/50/" alt='image header'/>
             </div>
             
         </div>

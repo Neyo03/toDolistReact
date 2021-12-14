@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faHome, faArchive, faTrash, faFile, faCashRegister, faClone } from '@fortawesome/free-solid-svg-icons';
-import React, { useState } from 'react';
-import { Link, BrowserRouter,Router } from 'react-router-dom';
+import { faHome, faArchive, faTrash, faClone } from '@fortawesome/free-solid-svg-icons';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Burger = () => {
    

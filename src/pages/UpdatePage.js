@@ -41,7 +41,7 @@ const UpdatePage = () => {
     }, 100);
     useEffect(()=>{
         updateItem()
-        
+        autosize()
     },[textUpdate,titreUpdate])
     
     
