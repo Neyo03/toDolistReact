@@ -6,6 +6,7 @@ import { UIdContext } from '../context/UIdContext';
 import MenuEllipsV from './Menu';
 import firebase from '../api/fireBaseConfig';
 import MessageContext from '../context/MessageContext';
+import { ReloadReadContext } from '../context/ReloadReadAfterActions';
 
 const Display = ({note, number}) => {
 
@@ -14,6 +15,8 @@ const Display = ({note, number}) => {
    
     const uid = useContext(UIdContext)
     const message = useContext(MessageContext)
+    const reload = useContext(ReloadReadContext)
+
     const today = new Date();
     const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
     
@@ -33,7 +36,9 @@ const Display = ({note, number}) => {
         return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1'+ breakTag +'$2');
     }
     function handleArchive(e) {
+
         
+
         let noteItem = note.archive ? firebase.database().ref('notesDbArchive').child(note.id) : firebase.database().ref('notesDb').child(note.id);
        
         const nouvelleNote = {
@@ -60,8 +65,10 @@ const Display = ({note, number}) => {
         const notesDb = note.archive ? firebase.database().ref('notesDb') : firebase.database().ref('notesDbArchive')
         notesDb.push(nouvelleNote)
         setTimeout(() => {
+            reload.setReload(!reload.reload)
             noteItem.remove();
             e.target.parentElement.parentElement.parentElement.style.opacity ="1"
+            
         }, 100);
     }
     

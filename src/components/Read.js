@@ -3,11 +3,14 @@ import firebase from '../api/fireBaseConfig';
 import Display from './Display';
 import Message from './Message';
 import MessageContext from '../context/MessageContext';
+import { ReloadReadContext } from '../context/ReloadReadAfterActions';
 
 const Read = () => {
     const [noteList, setNoteList]=useState([])
     const [searchValue, setSearchValue] = useState('')
     const message = useContext(MessageContext)
+    const reload = useContext(ReloadReadContext)
+    console.log(reload);
 
    
 
@@ -28,10 +31,9 @@ const Read = () => {
                 list.push({id,...previousList[id]})  
             }
             setNoteList(list) 
-            
         }) 
         
-    }, [searchValue, message ])
+    }, [searchValue, reload.reload])
     return (
         <div className="Read">
             {

@@ -10,6 +10,7 @@ import MessageContext, { MessageProvider } from './context/MessageContext';
 import ArchivagePage from './pages/ArchivagePage';
 import Header from './components/Header';
 import CorbeillePage from './pages/CorbeillePage';
+import { ReloadReadProvider } from './context/ReloadReadAfterActions';
 
 
 const App = () => {
@@ -17,20 +18,21 @@ const App = () => {
   return (
       <AuthProvider>
         <MessageProvider>
-          <BrowserRouter>
-          <Header />
-          <Routes>
-            <Route path="inscription" element={<InscriptionPage  /> }/>
-            <Route path="connexion" element={<LoginPage  /> }/>
-            <Route exact path="/" element={<Main  /> }/>
-            <Route  path="newNote" element={<Create/>}/>
-            <Route  path="/updateNote/:id" element={<UpdatePage />}/>
-            <Route  path="archive" element={<ArchivagePage />}/>
-            <Route  path="corbeille" element={<CorbeillePage />}/>
+          <ReloadReadProvider>
+            <BrowserRouter>
+            <Header />
+            <Routes>
+              <Route path="inscription" element={<InscriptionPage  /> }/>
+              <Route path="connexion" element={<LoginPage  /> }/>
+              <Route exact path="/" element={<Main  /> }/>
+              <Route  path="newNote" element={<Create/>}/>
+              <Route  path="/updateNote/:id" element={<UpdatePage />}/>
+              <Route  path="archive" element={<ArchivagePage />}/>
+              <Route  path="corbeille" element={<CorbeillePage />}/>
 
-          </Routes>
-          </BrowserRouter>
-          
+            </Routes>
+            </BrowserRouter>
+          </ReloadReadProvider>
         </MessageProvider>
       </AuthProvider>
     

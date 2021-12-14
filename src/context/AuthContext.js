@@ -13,6 +13,7 @@ export const AuthProvider = ({children}) => {
 
     const [currentUser, setCurrentUser] = useState()
     const [uId, setUid] = useState(null);
+    
     function signUp(email, password){
         return firebase.auth().createUserWithEmailAndPassword(email, password)
     }

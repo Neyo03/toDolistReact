@@ -5,18 +5,21 @@ import { faSave } from '@fortawesome/free-solid-svg-icons';
 import { UIdContext } from '../context/UIdContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import MessageContext from '../context/MessageContext';
+import { ReloadReadContext } from '../context/ReloadReadAfterActions';
 
 const Create = () => {
     const [titre, setTitre]  =useState('')
     const [text, setText] =useState('')
     const uid = useContext(UIdContext)
     const message = useContext(MessageContext)
+    const reload = useContext(ReloadReadContext)
 
     const today = new Date();
     const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
 
 
     const createNote = (e)=>{
+        
         e.preventDefault()
         const notesDb = firebase.database().ref('notesDb')
         const note = {
@@ -40,6 +43,9 @@ const Create = () => {
         setTitre('')
         setText('')
         document.getElementsByClassName('Note_create_text')[0].innerHTML = "";
+        setTimeout(() => {
+            reload.setReload(!reload.reload)
+        }, 100);
         
     }
     function handleClick(e) {

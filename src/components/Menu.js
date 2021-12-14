@@ -1,9 +1,14 @@
 import React, { useContext } from 'react';
 import firebase from '../api/fireBaseConfig';
 import MessageContext from '../context/MessageContext';
+import { ReloadReadContext } from '../context/ReloadReadAfterActions';
+
+
 const MenuEllipsV = ({note, className, type}) => {
 
     const message = useContext(MessageContext)
+    const reload = useContext(ReloadReadContext)
+
     const nouvelleNote = {
         uid : note.uid ,
         titre : note.titre, 
@@ -15,9 +20,10 @@ const MenuEllipsV = ({note, className, type}) => {
     }
 
     
-
     const deleteItem = (e)=>{
-        
+
+       
+
         e.target.parentElement.parentElement.parentElement.style.opacity ="0"
         let noteItem = note.corbeille ? firebase.database().ref('notesDbCorbeille').child(note.id) : note.archive ? firebase.database().ref('notesDbArchive').child(note.id) : firebase.database().ref('notesDb').child(note.id);
         
@@ -29,7 +35,7 @@ const MenuEllipsV = ({note, className, type}) => {
        
         e.target.parentElement.parentElement.parentElement.style.opacity ="1"
         setTimeout(() => {
-            console.log(noteItem);
+            reload.setReload(!reload.reload)
             noteItem.remove().then(()=>{
                 if ( note.corbeille ) {
                     message.setMessage('La note a été supprimée avec succès.') 
@@ -53,6 +59,8 @@ const MenuEllipsV = ({note, className, type}) => {
 
     const restaureItem = (e)=>{
 
+        
+
         let noteItem = firebase.database().ref('notesDbCorbeille').child(note.id);
         
         message.setMessage('Note restaurée') 
@@ -69,10 +77,12 @@ const MenuEllipsV = ({note, className, type}) => {
         setTimeout(() => {
             noteItem.remove();
             e.target.parentElement.parentElement.parentElement.style.opacity ="1"
+            reload.setReload(!reload.reload)
         }, 100);
 
     }
     const copieItem = ()=>{
+
         const noteDb = note.archive ? firebase.database().ref('notesDbArchive') : firebase.database().ref('notesDb')
         noteDb.push({
             uid : note.uid ,
@@ -85,14 +95,21 @@ const MenuEllipsV = ({note, className, type}) => {
         })
         message.setMessage('Note copiée.') 
         message.setTypeMessage("sucess")
+        setTimeout(() => {
+            reload.setReload(!reload.reload)
+        }, 100);
     }
     const changeColor = (color)=>{
+        
         let noteItem = note.archive ? firebase.database().ref('notesDbArchive').child(note.id) : firebase.database().ref('notesDb').child(note.id);
         if (color){
              noteItem.update({
                 color : color === note.color ? 'default' : color
             })
         }
+        setTimeout(() => {
+            reload.setReload(!reload.reload)
+        }, 100);
         
     }
 
