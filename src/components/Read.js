@@ -10,8 +10,11 @@ const Read = () => {
     const [searchValue, setSearchValue] = useState('')
     const message = useContext(MessageContext)
     const reload = useContext(ReloadReadContext)
-    console.log(reload);
 
+    document.addEventListener("selectionchange",(event)=>{
+        let selection = document.getSelection ? document.getSelection().toString() :  document.selection.createRange().toString() ;
+        console.log(selection);
+    })
    
 
     useEffect(()=>{

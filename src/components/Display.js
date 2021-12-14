@@ -19,12 +19,15 @@ const Display = ({note, number}) => {
 
     const today = new Date();
     const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+
+    
     
     useEffect(()=>{
         if (window.location.pathname ==="/corbeille" && note.dateNote+7 === date ) {
             let noteItem = firebase.database().ref('notesDbCorbeille').child(note.id);
             noteItem.remove()
         }
+        document.getElementById('text').innerHTML = nl2br(note.text.substr(0, 500))
     },[])
 
     function handleOver(index) {
@@ -95,7 +98,7 @@ const Display = ({note, number}) => {
              <div className="Note" style={ note.color !== "default" ? { backgroundColor : note.color, transition: ".3s linear", border: "none"}: null} onMouseOver={()=>handleOver(number)} onMouseOut={()=>handleOver(number)} >
                 <Link to={"updateNote/"+note.id}>
                     <h3>{note.titre.substr(0, 30)}...</h3>
-                    <p>{nl2br(note.text.substr(0, 500))}...</p>   
+                    <p id='text'></p>   
                 </Link>
                 <div className="Note_icons">
                    {!note.corbeille && <FontAwesomeIcon 
