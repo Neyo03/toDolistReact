@@ -4,6 +4,28 @@
         border :3px solid #f1f1f1 !important   ;
         box-shadow :0 7px 30px rgba(100,100,100,.2) ;
     }
+    &_selected::after{
+        content:'';
+        background-image: url('../Img/check-solid.svg');
+        background-size: 10px 10px;
+        background-repeat: no-repeat;
+        background-position: center;
+
+        width: 20px;
+        height: 20px;
+        
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+
+        background-color: $light;
+        border-radius: 50%;
+        position: absolute;
+        top: -10px;
+        left: -10px;
+
+    }
     width: $mediumSinzing ;
     max-height:$defaultSizing ;
     min-height: $minSinzing;

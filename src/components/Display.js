@@ -20,7 +20,8 @@ const Display = ({note, number}) => {
     const today = new Date();
     const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
 
-    
+        
+   
     
     useEffect(()=>{
         if (window.location.pathname ==="/corbeille" && note.dateNote+7 === date ) {

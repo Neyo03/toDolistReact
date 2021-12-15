@@ -1,9 +1,10 @@
 import { faBars, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 
 const Header = () => {
+  
      function handleClick(){
          document.getElementsByClassName('Burger')[0].classList.toggle('visibleLinkClass')
          
@@ -14,12 +15,14 @@ const Header = () => {
         document.getElementsByClassName('Header_input_icon')[0].children[1].style.color = '#333'
         document.getElementsByClassName('Header_input_icon')[0].style.backgroundColor = "#f1f1f1"
      }
-     document.body.addEventListener('focusout', (e)=>{
-        e.stopPropagation()
-        document.getElementsByClassName('Header_input_icon')[0].children[0].style.color = ''
-        document.getElementsByClassName('Header_input_icon')[0].children[1].style.color = ''
-        document.getElementsByClassName('Header_input_icon')[0].style.backgroundColor = ""
-     })
+     useEffect(()=>{
+        document.body.addEventListener('focusout', (e)=>{
+            e.stopPropagation()
+            document.getElementsByClassName('Header_input_icon')[0].children[0].style.color = ''
+            document.getElementsByClassName('Header_input_icon')[0].children[1].style.color = ''
+            document.getElementsByClassName('Header_input_icon')[0].style.backgroundColor = ""
+         })
+     },[])
     return (
         <div className="Header">
             <div className="Header_burger_logo">

@@ -4,28 +4,23 @@ import Display from './Display';
 import Message from './Message';
 import MessageContext from '../context/MessageContext';
 import { ReloadReadContext } from '../context/ReloadReadAfterActions';
+import SelectedNotesComponent from './SelectedNotes';
 
 const Read = () => {
     const [noteList, setNoteList]=useState([])
     const [searchValue, setSearchValue] = useState('')
-    
 
     const message = useContext(MessageContext)
     const reload = useContext(ReloadReadContext)
 
     
-   
 
-    document.addEventListener("selectionchange",(event)=>{
-        let selection = document.getSelection ? document.getSelection().toString() :  document.selection.createRange().toString() ;
-        // console.log(selection);
-    })
-
-   
-   
-   
-
+    // document.addEventListener("selectionchange",(event)=>{
+    //     let selection = document.getSelection ? document.getSelection().toString() :  document.selection.createRange().toString() ;
+    //     console.log('salut');
+    // })
     useEffect(()=>{
+        
         document.getElementsByClassName('Header_search_bar')[0].addEventListener('input', (e)=>{
             setSearchValue(e.target.value)
             e.stopPropagation()
@@ -47,6 +42,7 @@ const Read = () => {
     }, [searchValue, reload.reload])
     return (
         <div className="Read">
+            
             {
                 noteList && noteList.map((note,index )=>(
                     
@@ -54,6 +50,7 @@ const Read = () => {
                 )) 
             }
             <Message message={message.message} type={message.typeMessage} />
+            <SelectedNotesComponent/>
         </div>
     );
 };

@@ -9,7 +9,7 @@ const MenuEllipsV = ({note, className, type}) => {
     const message = useContext(MessageContext)
     const reload = useContext(ReloadReadContext)
 
-    const nouvelleNote = {
+    const nouvelleNote =  {
         uid : note.uid ,
         titre : note.titre, 
         text :  note.text,
@@ -17,7 +17,7 @@ const MenuEllipsV = ({note, className, type}) => {
         archive : note.archive,
         corbeille : !note.corbeille, 
         dateNote : note.dateNote
-    }
+    } 
 
     
     const deleteItem = (e)=>{
