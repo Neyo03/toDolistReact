@@ -15,6 +15,7 @@ const SelectedNotesComponent = () => {
       let x1 = 0, y1 = 0, x2 = 0, y2 = 0;
       let hightLightDiv= document.createElement('div');
       let pressing = false;
+      let wheel = false 
       
       
       function reCalc() {
@@ -27,7 +28,20 @@ const SelectedNotesComponent = () => {
         hightLightDiv.style.width = x4 - x3 + 'px';
         hightLightDiv.style.height = y4 - y3 + 'px';
       }
-      document.body.addEventListener('mousedown', e=>{ 
+      document.addEventListener('wheel', e=>{
+          console.log(e);
+        if (e.wheelDeltaY === 150) {
+            wheel = false
+        }
+        else {
+            wheel = true
+            y2 += 100; //Update the current position Y
+            reCalc();
+        }
+        
+         
+     });
+      document.addEventListener('mousedown', e=>{ 
         pressing =true;
         setSelectedNotes(listSelectedNotes)
         for (let s = 0; s < listSelectedNotes.length; s++) {
@@ -43,12 +57,17 @@ const SelectedNotesComponent = () => {
   
         hightLightDiv.classList.add('hightLightSelection')
         document.body.append(hightLightDiv)
-      
+        
+       
         document.addEventListener('mousemove', e=>{  
-            x2 = e.clientX; //Update the current position X
-            y2 = e.clientY; //Update the current position Y
-            reCalc();
+           if(!wheel){   //If the user isn't scrolling
+               
+                y2 = e.clientY; //Update the current position Y
                 
+            }
+            x2 = e.clientX; //Update the current position X
+            reCalc();
+
             if (e.target.classList[0] ==='Note' && pressing ) { 
               e.target.classList.add('Note_selected') 
               if (!listSelectedNotes.includes(e.target)) {
@@ -64,6 +83,7 @@ const SelectedNotesComponent = () => {
             e.stopPropagation()
         })
       })
+     
     },[])
   
     useEffect(()=>{
