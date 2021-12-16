@@ -30,7 +30,7 @@
 @import './Burger.scss';
 @import './MenuEllipsV.scss';
 @import './Message.scss';
-
+@import './SelectedNotes.scss';
 
 
 body{
@@ -52,33 +52,4 @@ body::-webkit-scrollbar-thumb {
 }
 
 
-.App_menuSelectedNotes{
-    transition: .2s ease-out;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    
-    background-color: $dark;
-    position: fixed;
-    width: 100%;
-    max-width: 100%;
-    height: 0px;
-    left: 0;
-    top:0px;
-    color: white;
-    font-size: $hightFontSizing+10;
-    font-weight: bolder;
-    
-    &_open{
-        transition: .2s ease-in;
-        height: 100px;
-        padding: $defaultPadding+15;
-    }  
-}
-
-.App_menuSelectedNotes>div>svg{
-    width: $hightFontSizing+5;
-    height: $hightFontSizing+5;
-}
 

@@ -40,10 +40,8 @@ const Display = ({note, number}) => {
         var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';    
         return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1'+ breakTag +'$2');
     }
+
     function handleArchive(e) {
-
-        
-
         let noteItem = note.archive ? firebase.database().ref('notesDbArchive').child(note.id) : firebase.database().ref('notesDb').child(note.id);
        
         const nouvelleNote = {
@@ -57,7 +55,7 @@ const Display = ({note, number}) => {
         }
         
         if ( note.archive ) {
-            message.setMessage('Archivage annulée') 
+            message.setMessage('Note restaurée') 
             message.setTypeMessage("sucess")
         }
         else{
@@ -97,7 +95,7 @@ const Display = ({note, number}) => {
     idCheck();
     return (
         idCheck() && (
-             <div className="Note" style={ note.color !== "default" ? { backgroundColor : note.color, transition: ".3s linear", border: "none"}: null} onMouseOver={()=>handleOver(number)} onMouseOut={()=>handleOver(number)} >
+             <div className="Note" id={note.id} style={ note.color !== "default" ? { backgroundColor : note.color, transition: ".3s linear", border: "none"}: null} onMouseOver={()=>handleOver(number)} onMouseOut={()=>handleOver(number)} >
                 <Link to={!note.corbeille ? "/updateNote/"+note.id : ''}>
                     <h3>{note.titre.substr(0, 30)} {note.titre ? '...' : ''}</h3>
                     <p className='textNote'></p>   

@@ -8,13 +8,14 @@ import { faSave } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const UpdatePage = () => {
 
-    const param = useParams();
-
+    
     const [titreUpdate, setTitreUpdate] = useState("")
     const [textUpdate, setTextUpdate] = useState("")
     const [data, setData] = useState(null);
 
     const message = useContext(MessageContext)
+    const param = useParams();
+
 
     let typingTimer;               
     const doneTypingInterval = 1000;  

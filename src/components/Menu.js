@@ -25,6 +25,7 @@ const MenuEllipsV = ({note, className, type}) => {
        
 
         e.target.parentElement.parentElement.parentElement.style.opacity ="0"
+        e.target.parentElement.parentElement.parentElement.style.transition ="0.3s"
         let noteItem = note.corbeille ? firebase.database().ref('notesDbCorbeille').child(note.id) : note.archive ? firebase.database().ref('notesDbArchive').child(note.id) : firebase.database().ref('notesDb').child(note.id);
         
         
@@ -38,7 +39,7 @@ const MenuEllipsV = ({note, className, type}) => {
             reload.setReload(!reload.reload)
             noteItem.remove().then(()=>{
                 if ( note.corbeille ) {
-                    message.setMessage('La note a été supprimée avec succès.') 
+                    message.setMessage('La note a été supprimée définitivement.') 
                     message.setTypeMessage("sucess")
                 }
                 else{
@@ -58,9 +59,6 @@ const MenuEllipsV = ({note, className, type}) => {
     }
 
     const restaureItem = (e)=>{
-
-        
-
         let noteItem = firebase.database().ref('notesDbCorbeille').child(note.id);
         
         message.setMessage('Note restaurée') 

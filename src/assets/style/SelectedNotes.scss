@@ -1,0 +1,36 @@
+.SelectedNotes_menuSelectedNotes{
+    transition: .2s ease-out;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    background-color: $dark;
+    position: fixed;
+    width: 100%;
+    max-width: 100%;
+    height: 0px;
+    left: 0;
+    top:0px;
+    color: white;
+    font-size: $hightFontSizing+10;
+    font-weight: bolder;
+    
+    &_open{
+        transition: .2s ease-in;
+        height: 100px;
+        padding: $defaultPadding+15;
+    }  
+}
+.SelectedNotes_menuSelectedNotes>div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+.SelectedNotes_menuSelectedNotes>div>svg{
+    cursor: pointer;
+    margin: $defaultMargin;
+    width: $hightFontSizing+5;
+    height: $hightFontSizing+5;
+}
