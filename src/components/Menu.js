@@ -14,7 +14,7 @@ const MenuEllipsV = ({note, className, type}) => {
         titre : note.titre, 
         text :  note.text,
         color : note.color,
-        archive : note.archive,
+        archive : false,
         corbeille : !note.corbeille, 
         dateNote : note.dateNote
     } 
@@ -98,7 +98,6 @@ const MenuEllipsV = ({note, className, type}) => {
         }, 100);
     }
     const changeColor = (color)=>{
-        
         let noteItem = note.archive ? firebase.database().ref('notesDbArchive').child(note.id) : firebase.database().ref('notesDb').child(note.id);
         if (color){
              noteItem.update({

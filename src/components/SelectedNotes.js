@@ -174,7 +174,7 @@ const SelectedNotesComponent = () => {
                         titre : note.titre, 
                         text :  note.text,
                         color : note.color,
-                        archive : note.archive,
+                        archive : false,
                         corbeille : !note.corbeille, 
                         dateNote: note.dateNote
                     }
