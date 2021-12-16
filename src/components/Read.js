@@ -9,6 +9,8 @@ import SelectedNotesComponent from './SelectedNotes';
 const Read = () => {
     const [noteList, setNoteList]=useState([])
     const [searchValue, setSearchValue] = useState('')
+    const [limitNotes, setLimitNotes] =useState(20)
+    const [maxLimitNotes, setMaxLimitNotes] = useState(0)
 
     const message = useContext(MessageContext)
     const reload = useContext(ReloadReadContext)
@@ -20,6 +22,26 @@ const Read = () => {
     //     
     // })
     useEffect(()=>{
+        document.addEventListener('scroll', e =>{
+            const nbNotesIncrement = limitNotes + 20
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && nbNotesIncrement <= maxLimitNotes) {
+                // console.log(limitNotes);
+                const nbNotesIncrement = limitNotes + 20
+                setLimitNotes(nbNotesIncrement) 
+                // console.log(limitNotes);
+                
+            }  
+            // var body = document.body; //IE 'quirks'
+            // var documentBody = document.documentElement; //IE with doctype
+            // documentBody = (documentBody.clientHeight) ? documentBody : body;
+            // if (documentBody.scrollTop === 0) {
+            //     let nbRestant = limitNotes-20;
+            //     setLimitNotes(limitNotes-nbRestant) 
+            // }     
+                   
+        })
+    },[noteList])
+    useEffect(()=>{
         
         document.getElementsByClassName('Header_search_bar')[0].addEventListener('input', (e)=>{
             setSearchValue(e.target.value)
@@ -27,9 +49,9 @@ const Read = () => {
         })
 
         const notesDb = window.location.pathname ==="/archive" ? firebase.database().ref('notesDbArchive') : window.location.pathname ==="/corbeille" ? firebase.database().ref('notesDbCorbeille') : firebase.database().ref('notesDb')  
-
-        const dbMethod = searchValue !=='' ? notesDb.orderByChild('titre').startAt(searchValue).endAt(searchValue+"\uf8ff") : notesDb
-
+        
+        const dbMethod = searchValue !=='' ? notesDb.orderByChild('titre').startAt(searchValue).endAt(searchValue+"\uf8ff") : notesDb.limitToFirst(limitNotes)
+        
         dbMethod.on('value', (snapshot) =>{
             let previousList = snapshot.val()
             let list =[];
@@ -39,7 +61,8 @@ const Read = () => {
             setNoteList(list) 
         }) 
         
-    }, [searchValue, reload.reload])
+        
+    }, [searchValue, reload.reload, limitNotes, maxLimitNotes])
     return (
         <div className="Read">
             

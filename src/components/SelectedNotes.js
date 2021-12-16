@@ -55,6 +55,10 @@ const SelectedNotesComponent = () => {
                 for (let s = 0; s < listSelectedNotes.length; s++) {
                     let element = listSelectedNotes[s]
                     element.classList.remove('Note_selected') 
+                    let menuSelectedNotes = document.querySelector('.SelectedNotes_menuSelectedNotes')
+                    menuSelectedNotes.classList.remove('SelectedNotes_menuSelectedNotes_open')
+                    setOpenMenu(false)
+                    setOpenMenuColors(false)
                 }
                 listSelectedNotes = []
             }, 200);
@@ -97,11 +101,9 @@ const SelectedNotesComponent = () => {
     
     useEffect(()=>{
         let menuSelectedNotes = document.querySelector('.SelectedNotes_menuSelectedNotes')
+        menuSelectedNotes.classList.remove('SelectedNotes_menuSelectedNotes_open')
         if (selectedNotes.length>0) {
           menuSelectedNotes.classList.add('SelectedNotes_menuSelectedNotes_open')
-        }
-        else{
-          menuSelectedNotes.classList.remove('SelectedNotes_menuSelectedNotes_open')
         }
     },[selectedNotes])
 
