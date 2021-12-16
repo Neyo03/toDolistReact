@@ -20,9 +20,6 @@ const Display = ({note, number}) => {
     const today = new Date();
     const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
 
-        
-   
-    
     useEffect(()=>{
         if (window.location.pathname ==="/corbeille" && note.dateNote+7 === date ) {
             let noteItem = firebase.database().ref('notesDbCorbeille').child(note.id);
@@ -75,8 +72,9 @@ const Display = ({note, number}) => {
         }, 100);
     }
     
+   
     document.getElementsByClassName('Read')[0].addEventListener("mouseover",(e)=>{
-        
+    
         if (e.target.classList.contains("Note") && openMenu===true ) {
             setOpenMenu(false)
         }
@@ -84,6 +82,7 @@ const Display = ({note, number}) => {
             setOpenMenuColors(false)
         }
     })
+    
     const idCheck = ()=>{
         if (note.uid === uid) {
             return true

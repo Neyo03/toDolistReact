@@ -11,6 +11,9 @@ const SelectedNotesComponent = () => {
     
     let listSelectedNotes=[]
     const [selectedNotes, setSelectedNotes] = useState([]);
+    const [openMenu, setOpenMenu] = useState(false)
+    const [openMenuColors, setOpenMenuColors] = useState(false)
+
     const message = useContext(MessageContext)
     const reload = useContext(ReloadReadContext)
   
@@ -33,8 +36,6 @@ const SelectedNotesComponent = () => {
             hightLightDiv.style.height = y4 - y3 + 'px';
         }
         document.addEventListener('wheel', e=>{
-            console.log(e);
-            console.log(e);
             if (e.wheelDeltaY > 0) {
                 wheel = false
             }
@@ -93,6 +94,7 @@ const SelectedNotesComponent = () => {
      
     },[])
   
+    
     useEffect(()=>{
         let menuSelectedNotes = document.querySelector('.SelectedNotes_menuSelectedNotes')
         if (selectedNotes.length>0) {
@@ -102,6 +104,7 @@ const SelectedNotesComponent = () => {
           menuSelectedNotes.classList.remove('SelectedNotes_menuSelectedNotes_open')
         }
     },[selectedNotes])
+
 
     function handleAllArchive() {
         let menuSelectedNotes = document.querySelector('.SelectedNotes_menuSelectedNotes')
@@ -147,6 +150,49 @@ const SelectedNotesComponent = () => {
         }
     }
 
+    function handleRestaureAllNotes() {
+        let menuSelectedNotes = document.querySelector('.SelectedNotes_menuSelectedNotes')
+        menuSelectedNotes.classList.remove('SelectedNotes_menuSelectedNotes_open')
+
+        for (let index = 0; index < selectedNotes.length; index++) {
+            const noteDiv = selectedNotes[index];
+            noteDiv.style.opacity ="0"
+            noteDiv.style.transition ="0.3s"
+            let noteItem = firebase.database().ref('notesDbCorbeille').child(noteDiv.id)
+    
+            noteItem.once('value', snapshot=>{
+                let note = snapshot.val();
+                const nouvelleNote = {
+                    uid : note.uid ,
+                    titre : note.titre, 
+                    text :  note.text,
+                    color : note.color,
+                    archive : false,
+                    corbeille : !note.corbeille, 
+                    dateNote: note.dateNote
+                }
+                const notesDb =  firebase.database().ref('notesDb');
+
+                notesDb.push(nouvelleNote)
+
+                setTimeout(() => {
+                    reload.setReload(!reload.reload)
+                    noteItem.remove().then(()=>{
+                       
+                        selectedNotes.length > 1 ? message.setMessage(selectedNotes.length +' notes restaurées.') : message.setMessage(selectedNotes.length +' note restaurée.')
+                        message.setTypeMessage("sucess")
+                        
+                    }).catch(()=>{
+                        message.setMessage('Restauration impossible.') 
+                        message.setTypeMessage("error")
+                    });
+                    noteDiv.style.opacity ="1"
+                    
+                }, 100);  
+            })
+            
+        }
+    }
     function handleAllDelete() {
         let menuSelectedNotes = document.querySelector('.SelectedNotes_menuSelectedNotes')
         menuSelectedNotes.classList.remove('SelectedNotes_menuSelectedNotes_open')
@@ -204,7 +250,44 @@ const SelectedNotesComponent = () => {
             })
         }
     }
+    function changeAllcolors(color) {
+        let menuSelectedNotes = document.querySelector('.SelectedNotes_menuSelectedNotes')
+        menuSelectedNotes.classList.remove('SelectedNotes_menuSelectedNotes_open')
+        for (let index = 0; index < selectedNotes.length; index++) {
+            const noteDiv = selectedNotes[index];
+            let noteItem;
+           
+           firebase.database().ref('notesDb').child(noteDiv.id).once('value').then(res => {
+                if(res.val() === null && window.location.pathname ==='/archive' ){
+                    noteItem = firebase.database().ref('notesDbArchive').child(noteDiv.id)
+                }
+                else{
+                    noteItem = firebase.database().ref('notesDb').child(noteDiv.id)
+                }
+                noteItem.once('value', snapshot=>{
+                    let note = snapshot.val();
+                    setTimeout(() => {
+                        reload.setReload(!reload.reload)
+                        noteItem.update({
+                            color : color === note.color ? 'default' : color
+                        })
+                        
+                        
+                    }, 100);  
+                })
+            })
+        }
 
+
+    }
+    document.body.addEventListener("mouseover",(e)=>{
+        if (e.target.classList.contains("SelectedNotes_menuSelectedNotes") || e.target.classList.contains("Main") && openMenu===true ) {
+            setOpenMenu(false)
+        }
+        if (e.target.classList.contains("SelectedNotes_menuSelectedNotes") || e.target.classList.contains("Main") && openMenuColors===true) {
+            setOpenMenuColors(false)
+        }
+    })
 
     return (
         <div className='SelectedNotes_menuSelectedNotes'>
@@ -218,31 +301,71 @@ const SelectedNotesComponent = () => {
            
            <div>
             
-            {
-                window.location.pathname !=='/corbeille' &&
+                {
+                    window.location.pathname !=='/corbeille' &&
+                    <FontAwesomeIcon
+                    className="SelectedNotes_icon" 
+                    icon={faArchive} 
+                    onMouseOver={()=>
+                        {
+                           setOpenMenu(false)
+                           setOpenMenuColors(false)
+                        }
+                    }
+                    onClick={()=>
+                        {
+                            handleAllArchive()
+                        }
+                    }
+                />
+                }
+                {window.location.pathname !=='/corbeille' && <FontAwesomeIcon
+                    className="SelectedNotes_icon" 
+                    icon={faPalette} 
+                    onMouseOver={()=>
+                        {
+                           setOpenMenu(false)
+                           setOpenMenuColors(true)
+                        }
+                    }
+                />}
+                <div className={`SelectedNotes_MenuColors ${openMenuColors ? 'SelectedNotes_MenuColors_open' : '' }`}>
+                    <button  onClick={()=>changeAllcolors('#A0937D')}> <div title="BRUN" style={{backgroundColor: '#A0937D' }} ></div>  </button> 
+                    <button  onClick={()=>changeAllcolors('#BFA2DB')}> <div title="VIOLET" style={{backgroundColor: '#BFA2DB'  }} ></div>  </button> 
+                    <button  onClick={()=>changeAllcolors('#3A6351')}>  <div title="VERT" style={{backgroundColor: '#3A6351' }} ></div> </button> 
+                    <button onClick={()=>changeAllcolors('#FF7878')}> <div title="ROUGE" style={{backgroundColor: '#FF7878' }} ></div>  </button> 
+                </div>
                 <FontAwesomeIcon
-                className="SelectedNotes_icon" 
-                icon={faArchive} 
-                onClick={()=>
-                    {
-                        handleAllArchive()
+                    className="SelectedNotes_icon" 
+                    icon={faEllipsisV} 
+                    onMouseOver={()=>
+                        {
+                           setOpenMenu(true)
+                           setOpenMenuColors(false)
+                        }
                     }
-                }
-            />
-            }
-            <FontAwesomeIcon
-                className="SelectedNotes_icon" 
-                icon={faPalette} 
-            />
-            <FontAwesomeIcon
-                className="SelectedNotes_icon" 
-                icon={faEllipsisV} 
-                onClick={()=>
+                    
+                />
+                <div className={`SelectedNotes_MenuEllipsV ${openMenu ? 'SelectedNotes_MenuEllipsV_open' : '' }`}>
+                    <button 
+                    onClick=
                     {
-                        handleAllDelete()
-                    }
-                }
-            />
+                        (e)=>{
+                            handleAllDelete(e)
+                        }
+                    }> 
+                        {window.location.pathname ==='/corbeille' ? 'Supprimer définitivement' : 'Supprimer les notes'}
+                    </button> 
+                    {window.location.pathname ==='/corbeille' && 
+                        <button 
+                        onClick={handleRestaureAllNotes}
+                        >Restaurer les notes</button>  }
+                                
+                    {window.location.pathname !=='/corbeille' && <button>Effectuer une copie</button> }
+                    
+                    {window.location.pathname !=='/corbeille' && <button>Ajouter un libellé</button> }
+                    
+                </div>
            </div>
            
 

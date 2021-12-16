@@ -63,7 +63,6 @@ const UpdatePage = () => {
              
     function autosize(){
         var el = document.getElementsByClassName('Note_update_text')[0];
-        console.log(el);
         setTimeout(function(){
             el.style.cssText = 'height:auto; padding:0';
             el.style.cssText = 'height:' + el.scrollHeight + 'px';
