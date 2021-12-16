@@ -277,8 +277,52 @@ const SelectedNotesComponent = () => {
                 })
             })
         }
+    }
+    function handleCopieAllNotes() {
+        let menuSelectedNotes = document.querySelector('.SelectedNotes_menuSelectedNotes')
+        menuSelectedNotes.classList.remove('SelectedNotes_menuSelectedNotes_open')
+
+        for (let index = 0; index < selectedNotes.length; index++) {
+            const noteDiv = selectedNotes[index];
+            let noteItem;
+           
+           firebase.database().ref('notesDb').child(noteDiv.id).once('value').then(res => {
+                if(res.val() === null && window.location.pathname ==='/archive' ){
+                    noteItem = firebase.database().ref('notesDbArchive').child(noteDiv.id)
+                }
+                else{
+                    noteItem = firebase.database().ref('notesDb').child(noteDiv.id)
+                }
+                noteItem.once('value', snapshot=>{
+                    let note = snapshot.val();
+                    const nouvelleNote = {
+                        uid : note.uid ,
+                        titre : note.titre, 
+                        text :  note.text,
+                        color : note.color,
+                        archive : note.archive,
+                        corbeille : note.corbeille, 
+                        dateNote: note.dateNote
+                    }
+                    const notesDb = note.archive ? firebase.database().ref('notesDbArchive') : firebase.database().ref('notesDb')
 
 
+                    setTimeout(() => {
+                        reload.setReload(!reload.reload)
+                        notesDb.push(nouvelleNote).then(()=>{
+                           
+                            selectedNotes.length > 1 ? message.setMessage(selectedNotes.length +' notes copiées.') : message.setMessage(selectedNotes.length +' note copiée.')
+                            message.setTypeMessage("sucess")
+                            
+                        }).catch(()=>{
+                            message.setMessage('Copie impossible.') 
+                            message.setTypeMessage("error")
+                        });
+                        
+                    }, 100);  
+                })
+            })
+        }
     }
     document.body.addEventListener("mouseover",(e)=>{
         if (e.target.classList.contains("SelectedNotes_menuSelectedNotes") || e.target.classList.contains("Main") && openMenu===true ) {
@@ -361,7 +405,7 @@ const SelectedNotesComponent = () => {
                         onClick={handleRestaureAllNotes}
                         >Restaurer les notes</button>  }
                                 
-                    {window.location.pathname !=='/corbeille' && <button>Effectuer une copie</button> }
+                    {window.location.pathname !=='/corbeille' && <button onClick={handleCopieAllNotes}>Effectuer une copie</button> }
                     
                     {window.location.pathname !=='/corbeille' && <button>Ajouter un libellé</button> }
                     

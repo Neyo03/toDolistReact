@@ -89,14 +89,13 @@
     right: 20px;
     bottom: -34px;
     z-index: 10;
-    width: 0;
+    width: 70px;
     pointer-events: none;
     height: 65px;
     opacity: 0;
     transition: ease-out;
+    
     &_open{
-        
-        width: 70px;
         pointer-events: initial;
         opacity: 1;
         transition: .1s ease-in;
