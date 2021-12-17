@@ -14,33 +14,26 @@ const Read = () => {
 
     const message = useContext(MessageContext)
     const reload = useContext(ReloadReadContext)
-
     
-
     // document.addEventListener("selectionchange",(event)=>{
     //     let selection = document.getSelection ? document.getSelection().toString() :  document.selection.createRange().toString() ;
     //     
     // })
-    useEffect(()=>{
-        document.addEventListener('scroll', e =>{
-            const nbNotesIncrement = limitNotes + 20
-            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && nbNotesIncrement <= maxLimitNotes) {
-                // console.log(limitNotes);
-                const nbNotesIncrement = limitNotes + 20
-                setLimitNotes(nbNotesIncrement) 
-                // console.log(limitNotes);
-                
-            }  
-            // var body = document.body; //IE 'quirks'
-            // var documentBody = document.documentElement; //IE with doctype
-            // documentBody = (documentBody.clientHeight) ? documentBody : body;
-            // if (documentBody.scrollTop === 0) {
-            //     let nbRestant = limitNotes-20;
-            //     setLimitNotes(limitNotes-nbRestant) 
-            // }     
-                   
-        })
-    },[noteList])
+    
+    document.onwheel=() =>{
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            const nbNotesIncrement = maxLimitNotes > limitNotes + 20 ? limitNotes + 20 : limitNotes + (maxLimitNotes-limitNotes + 20) 
+            setLimitNotes(nbNotesIncrement) 
+        }  
+        var body = document.body; //IE 'quirks'
+        var documentBody = document.documentElement; //IE with doctype
+        documentBody = (documentBody.clientHeight) ? documentBody : body;
+        if (documentBody.scrollTop === 0) {
+            let nbRestant = limitNotes-20;
+            setLimitNotes(limitNotes-nbRestant) 
+        }          
+    }
+    
     useEffect(()=>{
         
         document.getElementsByClassName('Header_search_bar')[0].addEventListener('input', (e)=>{
@@ -51,7 +44,9 @@ const Read = () => {
         const notesDb = window.location.pathname ==="/archive" ? firebase.database().ref('notesDbArchive') : window.location.pathname ==="/corbeille" ? firebase.database().ref('notesDbCorbeille') : firebase.database().ref('notesDb')  
         
         const dbMethod = searchValue !=='' ? notesDb.orderByChild('titre').startAt(searchValue).endAt(searchValue+"\uf8ff") : notesDb.limitToFirst(limitNotes)
-        
+        firebase.database().ref('notesDb').on('value', (snapshot)=>{
+            setMaxLimitNotes(snapshot.numChildren());
+        })
         dbMethod.on('value', (snapshot) =>{
             let previousList = snapshot.val()
             let list =[];
