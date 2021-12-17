@@ -44,7 +44,7 @@ const Read = () => {
         const notesDb = window.location.pathname ==="/archive" ? firebase.database().ref('notesDbArchive') : window.location.pathname ==="/corbeille" ? firebase.database().ref('notesDbCorbeille') : firebase.database().ref('notesDb')  
         
         const dbMethod = searchValue !=='' ? notesDb.orderByChild('titre').startAt(searchValue).endAt(searchValue+"\uf8ff") : notesDb.limitToFirst(limitNotes)
-        firebase.database().ref('notesDb').on('value', (snapshot)=>{
+        notesDb.on('value', (snapshot)=>{
             setMaxLimitNotes(snapshot.numChildren());
         })
         dbMethod.on('value', (snapshot) =>{
