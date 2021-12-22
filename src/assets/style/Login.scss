@@ -1,0 +1,66 @@
+.Login{
+    width: 100%;
+    margin-top: $defaultMargin;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-direction: row;
+
+    &_title{
+        color: $light;
+        margin-bottom: $defaultMargin+10;
+    }
+    &_form{
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: $defaultPadding;
+        width: 100%;
+
+    }
+    &_form>input{
+        margin: 0 0 $defaultMargin 0;
+        padding: 7px;
+        border-radius: 3px;
+        box-shadow :0 7px 30px rgba(100,100,100,.2);
+        width: 20%;
+        border: transparent;
+    }
+    &_password_eyes{
+        padding: 3px;
+        margin: 0 0 $defaultMargin 0;
+        border-radius: 3px;
+        box-shadow :0 7px 30px rgba(100,100,100,.2) ;
+        width: 20%;
+        background-color: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+    }
+    &_password_eyes>input{
+        padding: 5px;
+        border: transparent;
+        background-color: transparent;
+        outline: transparent;
+        margin-right: 5px ;
+    }
+    &_form>button{
+        padding: 7px;
+        border-radius: 3px;
+        width: 20%; 
+        box-shadow :0 7px 30px rgba(100,100,100,.2) ;
+        border:transparent;
+    }
+    &_icons{
+        color: $lightBorder;
+        margin-right: 5px;
+        cursor: pointer;
+        position: absolute;
+        right: 5px;
+    }
+
+
+}

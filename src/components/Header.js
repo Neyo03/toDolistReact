@@ -1,10 +1,13 @@
 import { faBars, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 
 const Header = () => {
-  
+    const {currentUser} = useAuth()
+
      function handleClick(){
          document.getElementsByClassName('Burger')[0].classList.toggle('visibleLinkClass')
          
@@ -35,10 +38,14 @@ const Header = () => {
                     <input className='Header_search_bar' type="search" name="" placeholder='Rechercher' onFocus={(e)=>handleFocus(e)} id="" />
                 </div>
             </div>
-            <div className="Header_profil">
+           {currentUser ? <div className="Header_profil">
                 <img src="https://fakeimg.pl/50/" alt='image header'/>
                 <img src="https://fakeimg.pl/50/" alt='image header'/>
-            </div>
+            </div>:
+            <div className='Header_profil'>
+                <Link className='Header_profil_buttons' to='connexion'>CONNEXION</Link>
+                <Link id='Header_profil_inscription' className='Header_profil_buttons' to='inscription'>INSCRIPTION</Link>
+            </div>}
             
         </div>
     );

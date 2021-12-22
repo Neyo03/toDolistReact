@@ -61,4 +61,24 @@
         color: $light;
     }
 
+    &_profil_buttons{
+        // margin-left: $defaultMargin;
+        text-decoration: none;
+        color: $light;
+        padding: $defaultPadding;
+        border-radius: $lowBorderRadius;
+    }
+    #Header_profil_inscription{
+        background-color: $primaryColor;
+        box-shadow: 0 7px 30px rgba(70, 60, 255, .08) ;
+        transition: .3s ease-in;
+
+    }
+    #Header_profil_inscription:hover{
+        background-color: rgb(95, 87, 252);
+        box-shadow: 0 7px 30px rgba(70, 60, 255, .08) ;
+        transition: .3s ease-out;
+
+    }
+
 }

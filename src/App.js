@@ -29,7 +29,6 @@ const App = () => {
               <Route  path="/updateNote/:id" element={<UpdatePage />}/>
               <Route  path="archive" element={<ArchivagePage />}/>
               <Route  path="corbeille" element={<CorbeillePage />}/>
-
             </Routes>
             </BrowserRouter>
           </ReloadReadProvider>

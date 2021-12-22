@@ -396,8 +396,8 @@ const SelectedNotesComponent = () => {
                     <button 
                     onClick=
                     {
-                        (e)=>{
-                            handleAllDelete(e)
+                        ()=>{
+                            handleAllDelete()
                         }
                     }> 
                         {window.location.pathname ==='/corbeille' ? 'Supprimer définitivement' : 'Supprimer les notes'}

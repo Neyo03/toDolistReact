@@ -4,11 +4,21 @@ import Read from '../components/Read';
 import Create from '../components/Create';
 import Burger from '../components/Burger';
 import MessageContext from '../context/MessageContext';
-
+import LoginPage from './LoginPage'
+import { useEffect } from 'react/cjs/react.development';
 
 const MainPage = () => {
+
     const {currentUser, logOut} = useAuth()
     const message = useContext(MessageContext)
+
+    useEffect(()=>{
+        if (currentUser ===null) {
+            window.location.href = '/connexion'
+        } 
+    },[currentUser])
+    
+    
     async function handleLogout() {
        try{
          await logOut()
@@ -26,6 +36,7 @@ const MainPage = () => {
                     {/* {currentUser && <p>Vous êtes connecté en tant que {currentUser.email} </p> }
                     {currentUser && <button onClick={handleLogout}>SE DECONNECTER</button>} */}
                     {currentUser && <Read/>}
+                    
                 </div>
             </div>
            
