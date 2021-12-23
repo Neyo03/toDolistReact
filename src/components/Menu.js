@@ -130,10 +130,8 @@ const MenuEllipsV = ({note, className, type}) => {
             {note.corbeille && 
                 <button 
                     onClick={(e)=>restaureItem(e)}
-                >Restaurer la note</button>  }
-                        
+                >Restaurer la note</button>  }             
             {!note.corbeille && <button onClick={copieItem}>Effectuer une copie</button> }
-            
             {!note.corbeille && <button onClick={copieItem}>Ajouter un libellé</button> }
             
         </div>

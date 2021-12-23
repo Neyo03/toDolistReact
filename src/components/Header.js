@@ -1,31 +1,43 @@
 import { faBars, faCog, faSearch, faUser, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useContext } from 'react/cjs/react.development';
 import { useAuth } from '../context/AuthContext';
+import MessageContext from '../context/MessageContext';
 
 
 const Header = () => {
-    const {currentUser} = useAuth()
+    const {currentUser, logOut} = useAuth()
+    const [openMenuUser, setOpenMenuUser] = useState(false)
+    const message = useContext(MessageContext)
 
-     function handleClick(){
-         document.getElementsByClassName('Burger')[0].classList.toggle('visibleLinkClass')
-         
-     }
-     function handleFocus(e) {
+    function handleClick(){
+        document.getElementsByClassName('Burger')[0].classList.toggle('visibleLinkClass')
+        
+    }
+    function handleFocus(e) {
+    e.stopPropagation()
+    document.getElementsByClassName('Header_input_icon')[0].children[0].style.color = '#333'
+    document.getElementsByClassName('Header_input_icon')[0].children[1].style.color = '#333'
+    document.getElementsByClassName('Header_input_icon')[0].style.backgroundColor = "#f1f1f1"
+    }
+    useEffect(()=>{
+    document.body.addEventListener('focusout', (e)=>{
         e.stopPropagation()
-        document.getElementsByClassName('Header_input_icon')[0].children[0].style.color = '#333'
-        document.getElementsByClassName('Header_input_icon')[0].children[1].style.color = '#333'
-        document.getElementsByClassName('Header_input_icon')[0].style.backgroundColor = "#f1f1f1"
+        document.getElementsByClassName('Header_input_icon')[0].children[0].style.color = ''
+        document.getElementsByClassName('Header_input_icon')[0].children[1].style.color = ''
+        document.getElementsByClassName('Header_input_icon')[0].style.backgroundColor = ""
+        })
+    },[])
+    async function handleLogout() {
+        try{
+          await logOut()
+        } catch {
+         message.setMessage('Deconnexion impossible')
+         message.setTypeMessage('error')
+        }
      }
-     useEffect(()=>{
-        document.body.addEventListener('focusout', (e)=>{
-            e.stopPropagation()
-            document.getElementsByClassName('Header_input_icon')[0].children[0].style.color = ''
-            document.getElementsByClassName('Header_input_icon')[0].children[1].style.color = ''
-            document.getElementsByClassName('Header_input_icon')[0].style.backgroundColor = ""
-         })
-     },[])
     return (
         <div className="Header">
             <div className="Header_burger_logo">
@@ -40,7 +52,17 @@ const Header = () => {
             </div>
            {currentUser !==null ? <div className="Header_profil">
                 <FontAwesomeIcon className="Header_profil_icon" icon={faCog}/>
-                <FontAwesomeIcon className="Header_profil_icon Header_profil_user" icon={faUserCircle}/>
+                <FontAwesomeIcon 
+                    onClick={()=>{
+                        openMenuUser(true)
+                    }} 
+                    className="Header_profil_icon Header_profil_user" icon={faUserCircle}
+                />
+                <div className='Header_profil_menu Header_profil_menu_open '>
+                    <FontAwesomeIcon className="Header_profil_icon Header_profil_user" icon={faUserCircle}/>
+                    <Link to='/'>Gerer profil</Link>
+                    <span onClick={handleLogout}>Deconnexion</span>
+                </div>
             </div>:
             <div className='Header_profil'>
                 <Link className='Header_profil_buttons' to='connexion'>CONNEXION</Link>
