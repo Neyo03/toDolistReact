@@ -1,5 +1,10 @@
-import React, { useRef, useState } from 'react';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useContext, useRef, useState } from 'react';
+import Burger from '../components/Burger';
+import Message from '../components/Message';
 import { useAuth } from '../context/AuthContext';
+import MessageContext from '../context/MessageContext';
 
 const InscriptionPage = () => {
   // const [user, setUser] = useState({
@@ -13,38 +18,63 @@ const InscriptionPage = () => {
   const passwordConfirmRef = useRef()
   const {signUp} = useAuth()
 
-  const [error, setError] =useState('')
   const [loading, setLoading] = useState(false)
+  const [icons, setIcons] = useState(faEye)
+  const[viewPassword, setViewPassword] = useState(false)
+  const message = useContext(MessageContext)
 
   async function handleSubmit(e){
     e.preventDefault()
     if (passwordRef.current.value !==passwordConfirmRef.current.value) {
-      return setError('Mot de passe ne sont pas identiques')
+      message.setMessage('Les mots de passe ne sont pas identiques ')
+      message.setTypeMessage('error')
     }
 
     try{
-      setError('')
       setLoading(true)
       await signUp(emailRef.current.value, passwordRef.current.value)
-    } catch{
-        setError('Impossible de créer un compte, nos agents sont entrain de régler le probleme')
+      message.setMessage('Compte créé avec successe.')
+      message.setTypeMessage('sucess')
+    } catch(e){
+      if(e.code === "auth/email-already-in-use"){
+        message.setMessage('Adresse e-mail déjà utilisée.')
+        message.setTypeMessage('error')
+      }else if (e.code==="auth/weak-password") {
+        message.setMessage('Le mot de passe doit faire 6 caractères minimum ')
+        message.setTypeMessage('error')
+      }
+      else{
+        message.setMessage('Impossible de créer un compte, veuillez réessayer ')
+        message.setTypeMessage('error')
+      }
     }
     setLoading(false)
   }
 
   return (
-    <div>
-      <h1>INSCRIPTION</h1>
-      <form onSubmit={handleSubmit} action="POST">
-        {error && error}
-        <input placeholder="EMAIL" ref={emailRef}  type="text" id="email" />
-        <input placeholder="password" ref={passwordRef}  type="password" id="password" />
-        <input placeholder="password CONFIRM" ref={passwordConfirmRef}  type="password" id="confirmPassword" />
-
-        {loading && 'Chargement'}
-
-        <button disabled={loading}>S'inscrire</button>
+    <div className='Login'>
+      { window.location.pathname ==='/inscription' && <Burger/>}
+      <form className='Login_form' onSubmit={handleSubmit} action="POST">
+      <h1 className='Login_title'>INSCRIPTION</h1>
+        <input placeholder="Adresse e-mail" ref={emailRef}  type="text" id="email" />
+        <div className='Login_password_eyes'>
+          <input placeholder={viewPassword ? "Mot de passe" : '**********'} ref={passwordRef}  type={viewPassword===false ? "password" : 'text'} id="password" />
+          <FontAwesomeIcon 
+            className="Login_icons" 
+            onClick={()=>
+                {
+                  setViewPassword(!viewPassword)
+                  icons===faEye ? setIcons(faEyeSlash) : setIcons(faEye)
+                }
+            } 
+            icon={icons} 
+          />
+        </div>
+        
+        <input placeholder={viewPassword ? "Confirmer mot de passe" : '**********'} ref={passwordConfirmRef}  type={viewPassword===false ? "password" : 'text'} id="confirmPassword" />
+        <button disabled={loading}>{loading ? 'Chargement' : 'S\'inscrire'}</button>
       </form>
+      <Message message={message.message} type={message.typeMessage} />
     </div>
   );
 };

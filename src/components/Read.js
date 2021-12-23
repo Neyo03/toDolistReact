@@ -5,6 +5,7 @@ import Message from './Message';
 import MessageContext from '../context/MessageContext';
 import { ReloadReadContext } from '../context/ReloadReadAfterActions';
 import SelectedNotesComponent from './SelectedNotes';
+import { UIdContext } from '../context/UIdContext';
 
 const Read = () => {
     const [noteList, setNoteList]=useState([])
@@ -14,6 +15,7 @@ const Read = () => {
 
     const message = useContext(MessageContext)
     const reload = useContext(ReloadReadContext)
+    const uid = useContext(UIdContext)
     
     // document.addEventListener("selectionchange",(event)=>{
     //     let selection = document.getSelection ? document.getSelection().toString() :  document.selection.createRange().toString() ;
@@ -35,35 +37,37 @@ const Read = () => {
     }
     
     useEffect(()=>{
-        
         document.getElementsByClassName('Header_search_bar')[0].addEventListener('input', (e)=>{
             setSearchValue(e.target.value)
             e.stopPropagation()
         })
 
         const notesDb = window.location.pathname ==="/archive" ? firebase.database().ref('notesDbArchive') : window.location.pathname ==="/corbeille" ? firebase.database().ref('notesDbCorbeille') : firebase.database().ref('notesDb')  
-        
-        const dbMethod = searchValue !=='' ? notesDb.orderByChild('titre').startAt(searchValue).endAt(searchValue+"\uf8ff") : notesDb.limitToFirst(limitNotes)
+
+        const dbMethod = searchValue !=='' ? notesDb.orderByChild('titre').startAt(searchValue).endAt(searchValue+"\uf8ff").limitToFirst(limitNotes) : notesDb.limitToFirst(limitNotes)
         notesDb.on('value', (snapshot)=>{
             setMaxLimitNotes(snapshot.numChildren());
         })
         dbMethod.on('value', (snapshot) =>{
             let previousList = snapshot.val()
+            console.log(snapshot.val());
             let list =[];
             for (let id in previousList) {
-                list.push({id,...previousList[id]})  
+                if (previousList[id].uid === uid) {
+                    list.push({id,...previousList[id]})  
+                }
             }
             setNoteList(list) 
         }) 
         
         
     }, [searchValue, reload.reload, limitNotes, maxLimitNotes])
+
     return (
         <div className="Read">
-            
+
             {
                 noteList && noteList.map((note,index )=>(
-                    
                     <Display key={index} number={index} note={note} />
                 )) 
             }

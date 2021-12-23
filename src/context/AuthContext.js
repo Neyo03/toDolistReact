@@ -1,3 +1,4 @@
+import { auth } from 'firebase';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import firebase from '../api/fireBaseConfig';
 import { UIdContext } from './UIdContext';

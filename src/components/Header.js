@@ -1,4 +1,4 @@
-import { faBars, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faCog, faSearch, faUser, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
@@ -38,9 +38,9 @@ const Header = () => {
                     <input className='Header_search_bar' type="search" name="" placeholder='Rechercher' onFocus={(e)=>handleFocus(e)} id="" />
                 </div>
             </div>
-           {currentUser ? <div className="Header_profil">
-                <img src="https://fakeimg.pl/50/" alt='image header'/>
-                <img src="https://fakeimg.pl/50/" alt='image header'/>
+           {currentUser !==null ? <div className="Header_profil">
+                <FontAwesomeIcon className="Header_profil_icon" icon={faCog}/>
+                <FontAwesomeIcon className="Header_profil_icon Header_profil_user" icon={faUserCircle}/>
             </div>:
             <div className='Header_profil'>
                 <Link className='Header_profil_buttons' to='connexion'>CONNEXION</Link>

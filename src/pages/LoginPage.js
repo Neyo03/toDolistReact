@@ -15,16 +15,15 @@ const LoginPage = () => {
   const [icons, setIcons] = useState(faEye)
   const[viewPassword, setViewPassword] = useState(false)
 
+  const message = useContext(MessageContext)
+   
+  if (loading) {
+    document.body.style.cursor = 'progress'
+  }
+  else{
+    document.body.style.cursor = 'default'
 
-  // if (currentUser) {
-  //   window.location.href = '/'
-  // } 
-  
- 
-
-  
- const message = useContext(MessageContext)
-
+  }
 
   async function handleSubmit(e){
     e.preventDefault()
@@ -34,10 +33,27 @@ const LoginPage = () => {
       await logIn(emailRef.current.value, passwordRef.current.value)
       message.setMessage('Vous êtes connecté en tant que '+ currentUser.email)
       message.setTypeMessage('sucess') 
-    } catch{
-      message.setMessage('Impossible de se connecter ! Veuillez réessayer.')
-      message.setTypeMessage('error')
+      window.location.href = '/'
+    }catch(e){
+      console.log(e);
+      if (e.code === "auth/wrong-password") {
+        message.setMessage('Mot de passe incorrect.')
+        message.setTypeMessage('error')
+      }
+      else if (e.code==="auth/user-not-found") {
+        message.setMessage('Utilisateur introuvable.')
+        message.setTypeMessage('error')
+      }
+      else if (e.code ==="auth/invalid-email") {
+        message.setMessage('Adresse e-mail invalide.')
+        message.setTypeMessage('error')
+      }
+      else{
+        message.setMessage('Impossible de se connecter ! Veuillez réessayer.')
+        message.setTypeMessage('error')
+      }
     }
+   
     setLoading(false)
     
   }

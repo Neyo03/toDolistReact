@@ -83,57 +83,47 @@ const Display = ({note, number}) => {
         }
     })
     
-    const idCheck = ()=>{
-        if (note.uid === uid) {
-            return true
-        }
-        else{
-            return false
-        }
-    }
-    idCheck();
     return (
-        idCheck() && (
-             <div className="Note" id={note.id} style={ note.color !== "default" ? { backgroundColor : note.color, transition: ".3s linear", border: "none"}: null} onMouseOver={()=>handleOver(number)} onMouseOut={()=>handleOver(number)} >
-                <Link to={!note.corbeille ? "/updateNote/"+note.id : ''}>
-                    <h3>{note.titre.substr(0, 30)} {note.titre ? '...' : ''}</h3>
-                    <p className='textNote'></p>   
-                </Link>
-                <div className="Note_icons">
-                   {!note.corbeille && <FontAwesomeIcon 
-                        className="Note_icon" 
-                        onClick={(e)=>{handleArchive(e)}} 
-                        onMouseOver={()=>{
-                            setOpenMenuColors(false) 
-                            setOpenMenu(false)
-                        }} 
-                        icon={faArchive} 
-                    />}
-                    {!note.corbeille && <FontAwesomeIcon 
-                        className="Note_icon" 
-                        onMouseOver={()=>
-                            {
-                                setOpenMenuColors(true) 
-                                setOpenMenu(false)
-                            }
-                        } 
-                        icon={faPalette} />}
-                    <MenuEllipsV type={'colors'} className={openMenuColors && 'MenuColors_open'}  note={note}/>
-                    <FontAwesomeIcon 
-                    className="Note_icon" 
-                    onMouseOver={()=>
-                        {
-                            setOpenMenu(true)
-                            setOpenMenuColors(false)
+        <div className="Note" id={note.id} style={ note.color !== "default" ? { backgroundColor : note.color, transition: ".3s linear", border: "none"}: null} onMouseOver={()=>handleOver(number)} onMouseOut={()=>handleOver(number)} >
+        <Link to={!note.corbeille ? "/updateNote/"+note.id : ''}>
+            <h3>{note.titre.substr(0, 30)} {note.titre ? '...' : ''}</h3>
+            <p className='textNote'></p>   
+        </Link>
+        <div className="Note_icons">
+            {!note.corbeille && <FontAwesomeIcon 
+                className="Note_icon" 
+                onClick={(e)=>{handleArchive(e)}} 
+                onMouseOver={()=>{
+                    setOpenMenuColors(false) 
+                    setOpenMenu(false)
+                }} 
+                icon={faArchive} 
+            />}
+            {!note.corbeille && <FontAwesomeIcon 
+                className="Note_icon" 
+                onMouseOver={()=>
+                    {
+                        setOpenMenuColors(true) 
+                        setOpenMenu(false)
+                    }
+                } 
+                icon={faPalette} />}
+            <MenuEllipsV type={'colors'} className={openMenuColors && 'MenuColors_open'}  note={note}/>
+            <FontAwesomeIcon 
+            className="Note_icon" 
+            onMouseOver={()=>
+                {
+                    setOpenMenu(true)
+                    setOpenMenuColors(false)
 
-                        }
-                    } 
-                    icon={faEllipsisV} />
-                    <MenuEllipsV type={'menuEllips'} className={openMenu && 'MenuEllipsV_open'} note={note}/>
-                </div>
-                
-            </div> 
-        )
+                }
+            } 
+            icon={faEllipsisV} />
+            <MenuEllipsV type={'menuEllips'} className={openMenu && 'MenuEllipsV_open'} note={note}/>
+        </div>
+        
+    </div> 
+        
     );
 };
 

@@ -53,6 +53,7 @@
         width: 20%; 
         box-shadow :0 7px 30px rgba(100,100,100,.2) ;
         border:transparent;
+        cursor:pointer;
     }
     &_icons{
         color: $lightBorder;
@@ -61,6 +62,8 @@
         position: absolute;
         right: 5px;
     }
+    
+
 
 
 }

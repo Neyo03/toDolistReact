@@ -81,4 +81,14 @@
 
     }
 
+    .Header_profil_icon{
+        color: $light;
+        cursor: pointer;
+        font-size: $hightFontSizing+5px ;
+        margin-left: $defaultMargin;
+    }   
+    .Header_profil_user{
+        font-size: $hightFontSizing+15px 
+    }
+
 }
