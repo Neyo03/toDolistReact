@@ -1,22 +1,19 @@
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import firebase from '../api/fireBaseConfig';
 import React, { useContext, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useEffect } from 'react/cjs/react.development';
 import Burger from '../components/Burger';
 import Message from '../components/Message';
 import { useAuth } from '../context/AuthContext';
 import MessageContext from '../context/MessageContext';
 
 const InscriptionPage = () => {
-  // const [user, setUser] = useState({
-  //   email:null, 
-  //   password:null
-  // })
-  
-  // const {email, password} = user
   const emailRef = useRef()
   const passwordRef = useRef()
   const passwordConfirmRef = useRef()
-  const {signUp} = useAuth()
+  const {signUp, currentUser} = useAuth()
 
   const [loading, setLoading] = useState(false)
   const [icons, setIcons] = useState(faEye)
@@ -32,9 +29,11 @@ const InscriptionPage = () => {
 
     try{
       setLoading(true)
-      await signUp(emailRef.current.value, passwordRef.current.value)
-      message.setMessage('Compte créé avec successe.')
-      message.setTypeMessage('sucess')
+      if (await signUp(emailRef.current.value, passwordRef.current.value)) {
+        message.setMessage('Compte créé avec successe.')
+        message.setTypeMessage('sucess')
+      }
+      
     } catch(e){
       if(e.code === "auth/email-already-in-use"){
         message.setMessage('Adresse e-mail déjà utilisée.')
@@ -50,6 +49,8 @@ const InscriptionPage = () => {
     }
     setLoading(false)
   }
+
+  
 
   return (
     <div className='Login'>
@@ -73,6 +74,8 @@ const InscriptionPage = () => {
         
         <input placeholder={viewPassword ? "Confirmer mot de passe" : '**********'} ref={passwordConfirmRef}  type={viewPassword===false ? "password" : 'text'} id="confirmPassword" />
         <button disabled={loading}>{loading ? 'Chargement' : 'S\'inscrire'}</button>
+        <br/>
+        <span>Vous avez un compte ? <Link to='/connexion'>Connectez-vous</Link></span>
       </form>
       <Message message={message.message} type={message.typeMessage} />
     </div>

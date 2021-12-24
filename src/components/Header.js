@@ -23,12 +23,25 @@ const Header = () => {
     document.getElementsByClassName('Header_input_icon')[0].style.backgroundColor = "#f1f1f1"
     }
     useEffect(()=>{
-    document.body.addEventListener('focusout', (e)=>{
-        e.stopPropagation()
-        document.getElementsByClassName('Header_input_icon')[0].children[0].style.color = ''
-        document.getElementsByClassName('Header_input_icon')[0].children[1].style.color = ''
-        document.getElementsByClassName('Header_input_icon')[0].style.backgroundColor = ""
+        document.body.addEventListener('focusout', (e)=>{
+            e.stopPropagation()
+            document.getElementsByClassName('Header_input_icon')[0].children[0].style.color = ''
+            document.getElementsByClassName('Header_input_icon')[0].children[1].style.color = ''
+            document.getElementsByClassName('Header_input_icon')[0].style.backgroundColor = ""
         })
+        document.body.addEventListener('click', (e)=>{
+            e.stopPropagation()
+            
+            if (!e.target.classList.contains("Header_profil_user")){
+                // console.log(e.target.parentElement.parentElement.classList);
+                setOpenMenuUser(false)
+            }
+            if ( e.target.parentElement.parentElement.classList.contains('Header_profil_menu') || e.target.parentElement.classList.contains('Header_profil_menu') || e.target.classList.contains('Header_profil_menu') ||e.target.classList.contains('Header_profil_menu')) {
+                setOpenMenuUser(true)
+            }
+            
+        })
+        
     },[])
     async function handleLogout() {
         try{
@@ -51,17 +64,26 @@ const Header = () => {
                 </div>
             </div>
            {currentUser !==null ? <div className="Header_profil">
-                <FontAwesomeIcon className="Header_profil_icon" icon={faCog}/>
                 <FontAwesomeIcon 
                     onClick={()=>{
-                        openMenuUser(true)
+                        setOpenMenuUser(!openMenuUser)
                     }} 
                     className="Header_profil_icon Header_profil_user" icon={faUserCircle}
                 />
-                <div className='Header_profil_menu Header_profil_menu_open '>
-                    <FontAwesomeIcon className="Header_profil_icon Header_profil_user" icon={faUserCircle}/>
-                    <Link to='/'>Gerer profil</Link>
-                    <span onClick={handleLogout}>Deconnexion</span>
+                <div className={`Header_profil_menu${openMenuUser ? ' Header_profil_menu_open ': ""}`}>
+                    <div className='Header_profil_menu_gerer'>
+                        <FontAwesomeIcon className="Header_profil_icon Header_profil_user" icon={faUserCircle}/>
+                        <span>{currentUser && currentUser.email}</span>
+                        <Link style={{marginLeft :'15px'}} to='/'>Gérer le profil</Link>
+                    </div>
+                    <div>
+                        <Link id='Header_profil_menu_param' to=''>Paramètres</Link>
+                        <span id='Header_profil_menu_deco' onClick={handleLogout}>Deconnexion</span>
+                    </div>
+                    <div className='Header_profil_menu_conditions'>
+                        <Link to=''>Conditions d'utilisation</Link>
+                        <Link to=''>Règles de confidentialité</Link>
+                    </div>
                 </div>
             </div>:
             <div className='Header_profil'>

@@ -16,7 +16,6 @@ const MainPage = () => {
             window.location.href = '/connexion'
         } 
     },[currentUser])
-    
     return (
         <div className="Main">
             <Burger/>

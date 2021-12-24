@@ -1,5 +1,5 @@
 import React from 'react';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import InscriptionPage from './pages/InscriptionPage';
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import LoginPage from './pages/LoginPage';
@@ -11,9 +11,12 @@ import ArchivagePage from './pages/ArchivagePage';
 import Header from './components/Header';
 import CorbeillePage from './pages/CorbeillePage';
 import { ReloadReadProvider } from './context/ReloadReadAfterActions';
+import { useEffect } from 'react/cjs/react.development';
 
 
 const App = () => {
+
+  
 
   return (
       <AuthProvider>

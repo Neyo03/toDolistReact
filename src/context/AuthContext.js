@@ -14,11 +14,12 @@ export const AuthProvider = ({children}) => {
 
     const [currentUser, setCurrentUser] = useState()
     const [uId, setUid] = useState(null);
+    const userDb = firebase.database().ref('userDb')
     
-    function signUp(email, password){
+    async function signUp(email, password){
         return firebase.auth().createUserWithEmailAndPassword(email, password)
     }
-    function logIn(email, password){
+    async function logIn(email, password){
         return firebase.auth().signInWithEmailAndPassword(email, password)
     }
     function logOut() {
@@ -30,6 +31,16 @@ export const AuthProvider = ({children}) => {
             setCurrentUser(user)
             if (user) {
                 setUid(user.uid)
+                if (userDb.children.uid !== user.uid ) {
+                    userDb.push({
+                        uid :user.uid ,
+                        email : user.email,
+                        nom : '',
+                        prenom : '',
+                        pseudo :''
+                    })
+                }
+                
             }
             
         })

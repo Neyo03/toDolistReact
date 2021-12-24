@@ -12,6 +12,12 @@ const CorbeillePage = () => {
         message.setTypeMessage('autre')
     },[])
 
+    useEffect(()=>{
+        if (currentUser ===null) {
+            window.location.href = '/connexion'
+        } 
+    },[currentUser])
+
     return (
         <div className="Main">
             <Burger/>

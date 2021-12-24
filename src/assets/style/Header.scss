@@ -6,6 +6,7 @@
     padding: $defaultPadding+15;
     background-color: $dark;
     // border-bottom: .5px $light solid;
+    position: relative;
 
     &_burger_logo{
         display: flex;
@@ -84,11 +85,107 @@
     .Header_profil_icon{
         color: $light;
         cursor: pointer;
-        font-size: $hightFontSizing+5px ;
+        font-size: $hightFontSizing+15px ;
         margin-left: $defaultMargin;
     }   
     .Header_profil_user{
-        font-size: $hightFontSizing+15px 
+        font-size: $hightFontSizing+30px 
     }
+    .Header_profil_user>path{
+        pointer-events: none;
+    }
+    .Header_profil_menu{
+        display: flex;
+        flex-direction: column; 
+        align-items: center;
+        justify-content: space-between;
+        height: 70vh;
+        position: absolute;
+        background-color: $primaryDarkColor; 
+        padding: $defaultPadding+10;
+        border-radius: $lowBorderRadius;
+        box-shadow: 0 2px 3px rgba($color: #000, $alpha: .5);
+        overflow: hidden;
+        top: 80px;
+        right: 10px;
+        z-index: 10;
+        width:300px;
+        pointer-events: none;
+        opacity: 0;
+        transition: ease-out;
+        &_open{
+            pointer-events: initial;
+            opacity: 1;
+            transition: .1s ease-in;
+
+        }
+        &_conditions{
+            border-top: .1px solid $light;
+            align-items: flex-start;
+            padding-top: 10px;
+        }
+        &_conditions>a{
+            font-size: $lowFontSizing+3 !important;
+        }
+        #Header_profil_menu_deco{
+            width: 100%;
+            text-align: center;
+            margin: $defaultMargin 0px 0px 0px ;
+            padding: $defaultPadding;
+            background-color: $primaryLightColor;
+            border-radius: $lowBorderRadius;
+            box-shadow: 0 2px 3px rgba($color: #000, $alpha: .5);
+        }
+        #Header_profil_menu_param{
+            width: 100%;
+            text-align: center;
+            margin: $defaultMargin 0px 0px 0px ;
+            padding: $defaultPadding;
+            border: $primaryLightColor 1px solid;
+            border-radius: $lowBorderRadius;
+            color: $primaryLightColor ;
+            font-size: initial !important;
+        }
+        &_gerer{
+
+           width: 100%;
+        }
+        &_gerer>span{
+
+            margin: 15px 0px 10px 0px;
+        }
+        &_gerer>a{
+            width: 100%;
+            text-align: center;
+            margin: $defaultMargin 0px 0 0px !important;
+            padding: $defaultPadding;
+            border: $light 1px solid;
+            border-radius: $lowBorderRadius+10;
+            box-shadow: 0 2px 3px rgba($color: #000, $alpha: .5);
+        }
+    }
+    .Header_profil_menu>div{
+        display: flex;
+        flex-direction: column; 
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+    .Header_profil_menu>div>svg{
+        cursor: default;
+        font-size: $hightFontSizing+45;
+    }
+    .Header_profil_menu>div>span{
+        cursor: pointer;
+        color: $light;
+    }
+    .Header_profil_menu>div>a{
+        margin : 5px 0 5px 0 ;
+        font-size: $lowFontSizing+5;
+        cursor: pointer;
+        color: $light;
+        text-decoration: transparent;
+    }
+    
 
 }

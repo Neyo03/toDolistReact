@@ -62,6 +62,12 @@
         position: absolute;
         right: 5px;
     }
+    &_form>span{
+        color: $light;
+    }
+    &_form>span>a{
+        color: $primaryLightColor;
+    }
     
 
 

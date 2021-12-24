@@ -1,6 +1,7 @@
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useContext, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useEffect } from 'react/cjs/react.production.min';
 import Burger from '../components/Burger';
 import Message from '../components/Message';
@@ -30,12 +31,12 @@ const LoginPage = () => {
     
     try{
       setLoading(true)
-      await logIn(emailRef.current.value, passwordRef.current.value)
-      message.setMessage('Vous êtes connecté en tant que '+ currentUser.email)
-      message.setTypeMessage('sucess') 
-      window.location.href = '/'
+      if ( await logIn(emailRef.current.value, passwordRef.current.value)) {
+        message.setMessage('Vous êtes connecté.')
+        message.setTypeMessage('sucess') 
+        window.location.href = '/'
+      }
     }catch(e){
-      console.log(e);
       if (e.code === "auth/wrong-password") {
         message.setMessage('Mot de passe incorrect.')
         message.setTypeMessage('error')
@@ -79,6 +80,8 @@ const LoginPage = () => {
         </div>
         
         <button disabled={loading}>{loading ? 'Chargement' : 'Se connecter'}</button>
+        <br />
+        <span>Vous n'avez pas de compte ? <Link to='/inscription'>Inscrivez-vous</Link></span>
       </form>
       <Message message={message.message} type={message.typeMessage} />
     </div>

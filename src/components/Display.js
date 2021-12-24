@@ -85,10 +85,16 @@ const Display = ({note, number}) => {
     
     return (
         <div className="Note" id={note.id} style={ note.color !== "default" ? { backgroundColor : note.color, transition: ".3s linear", border: "none"}: null} onMouseOver={()=>handleOver(number)} onMouseOut={()=>handleOver(number)} >
-        <Link to={!note.corbeille ? "/updateNote/"+note.id : ''}>
-            <h3>{note.titre.substr(0, 30)} {note.titre ? '...' : ''}</h3>
-            <p className='textNote'></p>   
-        </Link>
+            <Link to={
+                note.archive ? '' :
+                note.corbeille ? '' :
+                "/updateNote/"+note.id
+
+                }
+            >
+                <h3>{note.titre.substr(0, 30)} {note.titre ? '...' : ''}</h3>
+                <p className='textNote'></p>   
+            </Link>
         <div className="Note_icons">
             {!note.corbeille && <FontAwesomeIcon 
                 className="Note_icon" 
