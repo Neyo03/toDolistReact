@@ -17,10 +17,10 @@ const Header = () => {
         
     }
     function handleFocus(e) {
-    e.stopPropagation()
-    document.getElementsByClassName('Header_input_icon')[0].children[0].style.color = '#333'
-    document.getElementsByClassName('Header_input_icon')[0].children[1].style.color = '#333'
-    document.getElementsByClassName('Header_input_icon')[0].style.backgroundColor = "#f1f1f1"
+        e.stopPropagation()
+        document.getElementsByClassName('Header_input_icon')[0].children[0].style.color = '#333'
+        document.getElementsByClassName('Header_input_icon')[0].children[1].style.color = '#333'
+        document.getElementsByClassName('Header_input_icon')[0].style.backgroundColor = "#f1f1f1"
     }
     useEffect(()=>{
         document.body.addEventListener('focusout', (e)=>{
@@ -50,21 +50,21 @@ const Header = () => {
          message.setMessage('Deconnexion impossible')
          message.setTypeMessage('error')
         }
-     }
+    }
     return (
         <div className="Header">
             <div className="Header_burger_logo">
                 <FontAwesomeIcon onClick={handleClick} className="Header_buger_icon" icon={faBars}/>
                 <img src="https://fakeimg.pl/50/" alt='image header'/>
             </div>
-            <div className="Header_search">
+            <div   className="Header_search">
                 <div className='Header_input_icon'>
-                    <FontAwesomeIcon onClick={handleClick} className="Header_search_icon" icon={faSearch}/>
+                    <FontAwesomeIcon className="Header_search_icon" icon={faSearch}/>
                     <input className='Header_search_bar' type="search" name="" placeholder='Rechercher' onFocus={(e)=>handleFocus(e)} id="" />
                 </div>
             </div>
            {currentUser !==null ? <div className="Header_profil">
-                <FontAwesomeIcon 
+                <FontAwesomeIcon
                     onClick={()=>{
                         setOpenMenuUser(!openMenuUser)
                     }} 

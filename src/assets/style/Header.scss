@@ -15,12 +15,18 @@
     }
     &_burger_logo img{
         margin-left: $defaultMargin
-
     }
     &_buger_icon{
         font-size: $hightFontSizing+10px;
         color: $light;
-
+        outline: rgba(255, 255, 255, 0) 5px solid;
+        border-radius: 50%;
+    }
+    &_buger_icon:hover{
+        transition: ease .3s;
+        outline: rgba(255, 255, 255,.05) 10px solid;
+        background-color:rgba(255, 255, 255,.05) ;
+       
     }
     &_search{
        
@@ -31,6 +37,7 @@
         
     }
     &_search>div{ 
+        position: relative;
         display: flex;
         align-items: center;
         padding: $defaultPadding;
@@ -89,7 +96,15 @@
         margin-left: $defaultMargin;
     }   
     .Header_profil_user{
-        font-size: $hightFontSizing+30px 
+        font-size: $hightFontSizing+30px ;
+        transition: ease .3s;
+        outline: rgba(255, 255, 255, 0) 5px solid;
+        border-radius: 50%;
+    }
+    .Header_profil_user:hover{
+        transition: ease .3s;
+        outline: rgba(255, 255, 255,.1) 5px solid;
+       
     }
     .Header_profil_user>path{
         pointer-events: none;

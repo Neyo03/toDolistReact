@@ -30,7 +30,7 @@
 @import './Message.scss';
 @import './SelectedNotes.scss';
 @import './Login.scss';
-
+@import './Libelle.scss';
 body{
     background-color: $dark;
     width: 100%;
@@ -48,6 +48,4 @@ body::-webkit-scrollbar-thumb {
     background-color: $light; /* color of the scroll thumb */
     border-radius: 20px; /* roundness of the scroll thumb */
 }
-
-
 

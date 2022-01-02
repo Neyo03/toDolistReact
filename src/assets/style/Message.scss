@@ -15,7 +15,7 @@
     color: $dangerColorDarkTEXT ;
     &_icon{
         color: $dangerColorDark ;
-        width: 50px;
+        font-size: $hightFontSizing+5 !important;
         margin-left: $defaultMargin ;
     }
 }
@@ -36,7 +36,7 @@
     color: $succesColorDarkTEXT ;
     &_icon{
         color: $succesColorDark ;
-        font-size: $hightFontSizing+5;
+        font-size: $hightFontSizing+5 !important;
 
         margin-left: $defaultMargin ;
     }
@@ -59,7 +59,7 @@
     color: $normalColorDarkTEXT ;
     &_icon{
         color: $normalColorDark ;
-        width: 50px;
+        font-size: $hightFontSizing+5 !important;
         margin-left: $defaultMargin ;
     }
 

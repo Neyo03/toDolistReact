@@ -1,0 +1,96 @@
+.Libelle{
+    display: flex;
+    width: 100%;
+    &_body{
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        width: 100%;
+        margin-top: $defaultMargin+35;
+    }
+
+    &_create>svg{
+        font-size: 200px;
+        color: $light;
+        border-radius: 50% ;
+        background-color: rgba(255, 255, 255, .05);
+        padding: 30px;
+        cursor: pointer;
+    }
+    &_folder{
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        margin-left: 20px;
+
+    }
+    &_file{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: $light;
+    }
+    &_file>svg{
+        margin:22px 0;
+        font-size: 200px;
+        color: $light;
+        border-radius: 50% ;
+        background-color: rgba(255, 255, 255, .01);
+        padding: 30px;
+        margin-right: 20px;
+        margin-bottom: 20px;
+        cursor: pointer;
+    }
+    &_form_create{
+       width: 100%;
+       height: 100vh;
+       position: fixed;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       top: 0;
+       left: 0;
+       background-color: rgba(0, 0, 0, 0.5);
+       opacity: 0;
+        pointer-events: none;
+    }
+    &_form_create_open{
+        opacity: 1;
+        pointer-events: initial;
+    }
+    &_form_create>div{
+        width: 20%;
+        display: flex;
+        flex-direction: column;
+        background-color: #333;
+        padding: $defaultPadding+15;
+        box-shadow: rgba(255, 255, 255, .05);
+        color: $light;
+        border-radius: 3px;
+    }
+    &_form_create>div>input{
+       margin: 10px 0 10px 0;
+       background-color: transparent;
+       border:transparent;
+       outline: transparent;
+       color: $light;
+       border-bottom: 1px $light solid;
+    }
+    &_form_create>div>input::placeholder{
+       color: rgb(177, 177, 177);
+    }
+    &_form_create>div>svg{
+        align-self: flex-end;
+        cursor: pointer;
+        margin-top: 6px;
+        border-radius: 50%;
+    }
+    &_form_create>div>svg:hover{
+        align-self: flex-end;
+        cursor: pointer;
+        outline: rgba(255, 255, 255,.05) 10px solid;
+        background-color:rgba(255, 255, 255,.05) ;
+    }
+}

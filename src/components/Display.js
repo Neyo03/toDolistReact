@@ -26,7 +26,9 @@ const Display = ({note, number}) => {
             noteItem.remove()
         }
         //Ajout du text de la note directement dans sa balise <p> pour que les <br> s'affiche correctement
+       
         document.getElementsByClassName('textNote')[number].innerHTML = nl2br(note.text.substr(0, 500))
+        
     },[note, reload.reload])
 
     function handleOver(index) {

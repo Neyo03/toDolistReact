@@ -24,11 +24,18 @@
     color: $light;
     text-decoration: none;
 }
-.Burger>a>svg{
-    
+.Burger>a>svg{   
     margin-right: $defaultMargin;
     font-size: $hightFontSizing+5;
     color: $light;
+    outline: rgba(255, 255, 255, 0) 5px solid;
+    border-radius: 50%;
+}
+.Burger>a>svg:hover{
+    transition: ease .3s;
+    outline: rgba(255, 255, 255,.05) 10px solid;
+    background-color:rgba(255, 255, 255,.05) ;
+   
 }
 .Burger>a>span{
     display: none;

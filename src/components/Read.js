@@ -6,6 +6,7 @@ import MessageContext from '../context/MessageContext';
 import { ReloadReadContext } from '../context/ReloadReadAfterActions';
 import SelectedNotesComponent from './SelectedNotes';
 import { UIdContext } from '../context/UIdContext';
+import LibelleFile from './LibelleFile';
 
 const Read = () => {
     const [noteList, setNoteList]=useState([])
@@ -35,14 +36,13 @@ const Read = () => {
             setLimitNotes(limitNotes-nbRestant) 
         }          
     }
-    
     useEffect(()=>{
         document.getElementsByClassName('Header_search_bar')[0].addEventListener('input', (e)=>{
             setSearchValue(e.target.value)
             e.stopPropagation()
         })
 
-        const notesDb = window.location.pathname ==="/archive" ? firebase.database().ref('notesDbArchive') : window.location.pathname ==="/corbeille" ? firebase.database().ref('notesDbCorbeille') : firebase.database().ref('notesDb')  
+        const notesDb = window.location.pathname ==="/archive" ? firebase.database().ref('notesDbArchive') : window.location.pathname ==="/corbeille" ? firebase.database().ref('notesDbCorbeille') : window.location.pathname ==="/libelle" ? firebase.database().ref('libelleDb') : firebase.database().ref('notesDb')  
 
         const dbMethod = searchValue !=='' ? notesDb.orderByChild('titre').startAt(searchValue).endAt(searchValue+"\uf8ff").limitToFirst(limitNotes) : notesDb.limitToFirst(limitNotes)
         notesDb.on('value', (snapshot)=>{
@@ -68,7 +68,7 @@ const Read = () => {
 
             {
                 noteList && noteList.map((note,index )=>(
-                    <Display key={index} number={index} note={note} />
+                    window.location.pathname !=="/libelle" ? <Display key={index} number={index} note={note} /> : <LibelleFile key={index} number={index} libelle={note}/>
                 )) 
             }
             <Message message={message.message} type={message.typeMessage} />

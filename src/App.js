@@ -12,11 +12,12 @@ import Header from './components/Header';
 import CorbeillePage from './pages/CorbeillePage';
 import { ReloadReadProvider } from './context/ReloadReadAfterActions';
 import { useEffect } from 'react/cjs/react.development';
+import { faBorderStyle } from '@fortawesome/free-solid-svg-icons';
+import LibellePage from './pages/LibellePage';
 
 
 const App = () => {
 
-  
 
   return (
       <AuthProvider>
@@ -28,10 +29,10 @@ const App = () => {
               <Route path="inscription" element={<InscriptionPage  /> }/>
               <Route path="connexion" element={<LoginPage  /> }/>
               <Route exact path="/" element={<Main  /> }/>
-              <Route  path="newNote" element={<Create/>}/>
               <Route  path="/updateNote/:id" element={<UpdatePage />}/>
               <Route  path="archive" element={<ArchivagePage />}/>
               <Route  path="corbeille" element={<CorbeillePage />}/>
+              <Route  path="libelle" element={<LibellePage />}/>
             </Routes>
             </BrowserRouter>
           </ReloadReadProvider>
