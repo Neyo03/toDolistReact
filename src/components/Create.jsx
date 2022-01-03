@@ -29,7 +29,8 @@ const Create = () => {
             color : "default",
             archive : false, 
             corbeille : false, 
-            dateNote : date
+            dateNote : date,
+            libelle : [null]
         }
         if(text !==""){ 
             notesDb.push(note)

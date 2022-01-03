@@ -72,7 +72,7 @@ const Read = () => {
                 noteList.length>0 ? noteList.map((note,index )=>(
                     window.location.pathname !=="/libelle" ? <Display key={index} number={index} note={note} /> : <LibelleFile key={index} number={index} libelle={note}/>
                 )) : <div className='Read_emptydata'>
-                   <FontAwesomeIcon className="Libelle_icon" icon={faBan}/>
+                   <FontAwesomeIcon icon={faBan}/>
                     Aucune donnée
                 </div>
             }

@@ -1,14 +1,18 @@
 import React, { useContext } from 'react';
+import { useEffect, useState } from 'react/cjs/react.development';
 import firebase from '../api/fireBaseConfig';
 import MessageContext from '../context/MessageContext';
 import { ReloadReadContext } from '../context/ReloadReadAfterActions';
+import { UIdContext } from '../context/UIdContext';
 
 
 const MenuEllipsV = ({note, className, type}) => {
 
     const message = useContext(MessageContext)
     const reload = useContext(ReloadReadContext)
-
+    const [libelleList, setLibelleList]=useState([])
+    const uid = useContext(UIdContext)
+    
     const nouvelleNote =  {
         uid : note.uid ,
         titre : note.titre, 
@@ -18,7 +22,20 @@ const MenuEllipsV = ({note, className, type}) => {
         corbeille : !note.corbeille, 
         dateNote : note.dateNote
     } 
-
+    useEffect(()=>{
+       const dbLibelle = firebase.database().ref('libelleDb');
+       dbLibelle.on('value', (snapshot) =>{
+        let previousList = snapshot.val()
+        console.log(snapshot.val());
+        let list =[];
+        for (let id in previousList) {
+            if (previousList[id].uid === uid) {
+                list.push({id,...previousList[id]})  
+            }
+        }
+        setLibelleList(list) 
+    }) 
+    },[])
     
     const deleteItem = (e)=>{
 
@@ -109,8 +126,33 @@ const MenuEllipsV = ({note, className, type}) => {
         }, 100);
         
     }
+    function addLibelle(libelleItem) {
+        const noteItem = note.archive ? firebase.database().ref('notesDbArchive').child(note.id) : firebase.database().ref('notesDb').child(note.id);
+        let libelle = note.libelle ? note.libelle : []
 
-    
+        if (!libelle.includes(libelleItem.titre)) {
+            libelle.push(libelleItem.titre)
+            message.setMessage('Libellé ajouté.') 
+            message.setTypeMessage("sucess")
+        }
+        else{
+            message.setMessage('Libellé déjà existant.') 
+            message.setTypeMessage("error")
+        }
+        noteItem.update({
+            libelle : libelle
+        })
+        
+        
+        setTimeout(() => {
+            reload.setReload(!reload.reload)
+        }, 100);
+    }
+    function handleClick(e) {
+        if (e.target.classList.contains('Menu_libelle') ) {
+            e.target.classList.remove('Menu_libelle_open')
+        }
+    }
     return (
         type === "colors" ?
         <div className={`MenuColors ${className}`}>
@@ -119,7 +161,7 @@ const MenuEllipsV = ({note, className, type}) => {
             <button style={ note.color=== '#3A6351' ? {backgroundColor: 'rgb(61, 61, 61)'} : null}  onClick={()=>changeColor('#3A6351')}>  <div title="VERT" style={{backgroundColor: '#3A6351' }} ></div> </button> 
             <button style={ note.color=== '#FF7878' ? {backgroundColor: 'rgb(61, 61, 61)'} : null}  onClick={()=>changeColor('#FF7878')}> <div title="ROUGE" style={{backgroundColor: '#FF7878' }} ></div>  </button> 
         </div>
-        : <div className={`MenuEllipsV ${className}`}>
+        :  type === "menuEllips" ? <div className={`MenuEllipsV ${className}`}>
             <button 
             onClick=
             {
@@ -132,9 +174,22 @@ const MenuEllipsV = ({note, className, type}) => {
                     onClick={(e)=>restaureItem(e)}
                 >Restaurer la note</button>  }             
             {!note.corbeille && <button onClick={copieItem}>Effectuer une copie</button> }
-            {!note.corbeille && <button onClick={copieItem}>Ajouter un libellé</button> }
+            {!note.corbeille && <button onClick={(e)=>{
+                document.getElementsByClassName('Menu_libelle')[0].classList.add('Menu_libelle_open')
+            }}>Ajouter un libellé</button> }
             
+            
+        </div> : 
+        <div onClick={(e)=>{handleClick(e)}} className={`Menu_libelle`} >
+            <div>
+                {libelleList.map((libelleItem)=>(
+                   <span onClick={()=>{
+                    addLibelle(libelleItem)
+                   }}>{libelleItem.titre}</span> 
+                ))}
+            </div>
         </div>
+
     );
 };
 

@@ -87,6 +87,14 @@ const Display = ({note, number}) => {
     
     return (
         <div className="Note" id={note.id} style={ note.color !== "default" ? { backgroundColor : note.color, transition: ".3s linear", border: "none"}: null} onMouseOver={()=>handleOver(number)} onMouseOut={()=>handleOver(number)} >
+            {note.libelle && <div className='Note_libelle'>
+                <span>{note.libelle.length > 0 && note.libelle[0]}</span>
+                {note.libelle.length > 1 && <span> {note.libelle[1] }</span>}
+                {note.libelle.length > 2 && <span>{note.libelle[2]}</span>}
+                
+                
+                {note.libelle.length > 3 ? <span>+{note.libelle.length-3}</span> : ''}
+            </div>}
             <Link to={
                 note.archive ? '' :
                 note.corbeille ? '' :
@@ -116,7 +124,7 @@ const Display = ({note, number}) => {
                     }
                 } 
                 icon={faPalette} />}
-            <MenuEllipsV type={'colors'} className={openMenuColors && 'MenuColors_open'}  note={note}/>
+            <MenuEllipsV type={'colors'} className={openMenuColors ? 'MenuColors_open' : ''}  note={note}/>
             <FontAwesomeIcon 
             className="Note_icon" 
             onMouseOver={()=>
@@ -127,7 +135,9 @@ const Display = ({note, number}) => {
                 }
             } 
             icon={faEllipsisV} />
-            <MenuEllipsV type={'menuEllips'} className={openMenu && 'MenuEllipsV_open'} note={note}/>
+            <MenuEllipsV type={'menuEllips'} className={openMenu ? 'MenuEllipsV_open' : ''} note={note}/>
+            <MenuEllipsV type={''} note={note}/>
+
         </div>
         
     </div> 

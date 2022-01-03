@@ -362,7 +362,10 @@ const SelectedNotesComponent = () => {
                     className="SelectedNotes_icon" 
                     icon={faTimes} 
                 />
-                <span>{selectedNotes.length>1 ? selectedNotes.length+' Notes séléctionnées' : selectedNotes.length+' Note séléctionnée'}</span>
+                {window.location.pathname !== '/libelle' ?
+                <span>{selectedNotes.length>1 ? selectedNotes.length+' Notes séléctionnées' : selectedNotes.length+' Note séléctionnée'}</span>:
+                <span>{selectedNotes.length>1 ? selectedNotes.length+' Libellés séléctionnées' : selectedNotes.length+' Libellé séléctionnée'}</span>
+                }
             </div>
            
            <div>
