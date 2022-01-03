@@ -55,6 +55,7 @@ const SelectedNotesComponent = () => {
                 for (let s = 0; s < listSelectedNotes.length; s++) {
                     let element = listSelectedNotes[s]
                     element.classList.remove('Note_selected') 
+                    element.children[0].classList.remove('Libelle_selected') 
                     let menuSelectedNotes = document.querySelector('.SelectedNotes_menuSelectedNotes')
                     menuSelectedNotes.classList.remove('SelectedNotes_menuSelectedNotes_open')
                     setOpenMenu(false)
@@ -81,6 +82,12 @@ const SelectedNotesComponent = () => {
 
                 if (e.target.classList[0] ==='Note' && pressing ) { 
                     e.target.classList.add('Note_selected') 
+                    if (!listSelectedNotes.includes(e.target)) {
+                        listSelectedNotes.push(e.target)
+                    }
+                }
+                if (e.target.classList.contains ('Libelle_file') && pressing ) { 
+                    console.log(e.target.children[0].classList.add('Libelle_selected') );
                     if (!listSelectedNotes.includes(e.target)) {
                         listSelectedNotes.push(e.target)
                     }
@@ -201,22 +208,30 @@ const SelectedNotesComponent = () => {
 
         for (let index = 0; index < selectedNotes.length; index++) {
             const noteDiv = selectedNotes[index];
+            console.log(noteDiv);
             noteDiv.style.opacity ="0"
             noteDiv.style.transition ="0.3s"
             let noteItem;
-           
+            
            firebase.database().ref('notesDb').child(noteDiv.id).once('value').then(res => {
-                if (res.val() === null && window.location.pathname !=='/archive' ) {
+                if (res.val() === null && window.location.pathname !=='/archive' &&  window.location.pathname !=='/libelle' ) {
                     noteItem = firebase.database().ref('notesDbCorbeille').child(noteDiv.id)
                 }
-                else if(res.val() === null && window.location.pathname ==='/archive' ){
+                else if(res.val() === null && window.location.pathname ==='/archive' &&  window.location.pathname !=='/libelle' ){
                     noteItem = firebase.database().ref('notesDbArchive').child(noteDiv.id)
+                }
+                else if (res.val() === null  &&  window.location.pathname ==='/libelle') {
+                    console.log('salut');
+                    noteItem = firebase.database().ref('libelleDb').child(noteDiv.id)
                 }
                 else{
                     noteItem = firebase.database().ref('notesDb').child(noteDiv.id)
                 }
+                
                 noteItem.once('value', snapshot=>{
                     let note = snapshot.val();
+                    console.log(note);
+                   
                     const nouvelleNote = {
                         uid : note.uid ,
                         titre : note.titre, 
@@ -227,8 +242,9 @@ const SelectedNotesComponent = () => {
                         dateNote: note.dateNote
                     }
                     const notesDb = note.corbeille ? firebase.database().ref('notesDb') : firebase.database().ref('notesDbCorbeille')
-
-                    !note.corbeille && notesDb.push(nouvelleNote)
+                    if (window.location.pathname !=='/libelle' && !note.corbeille) {
+                        notesDb.push(nouvelleNote)
+                    }
 
                     setTimeout(() => {
                         reload.setReload(!reload.reload)
@@ -237,8 +253,12 @@ const SelectedNotesComponent = () => {
                                 selectedNotes.length > 1 ? message.setMessage(selectedNotes.length+' notes supprimées définitivement.') : message.setMessage(selectedNotes.length+' note supprimée définitivement.')
                                 message.setTypeMessage("sucess")
                             }
-                            else{
+                            else if(!note.corbeille && window.location.pathname !=='/libelle'){
                                 selectedNotes.length > 1 ? message.setMessage(selectedNotes.length +' notes placées dans la corbeille.') : message.setMessage(selectedNotes.length +' note placée dans la corbeille.')
+                                message.setTypeMessage("sucess")
+                            }
+                            else if( window.location.pathname ==='/libelle'){
+                                selectedNotes.length > 1 ? message.setMessage(selectedNotes.length +' libellés supprimés.') : message.setMessage(selectedNotes.length +' libellé supprimé.')
                                 message.setTypeMessage("sucess")
                             }
                         }).catch(()=>{
@@ -348,24 +368,24 @@ const SelectedNotesComponent = () => {
            <div>
             
                 {
-                    window.location.pathname !=='/corbeille' &&
+                    window.location.pathname ==='/corbeille' ? '' : window.location.pathname ==='/libelle' ? '' : 
                     <FontAwesomeIcon
-                    className="SelectedNotes_icon" 
-                    icon={faArchive} 
-                    onMouseOver={()=>
-                        {
-                           setOpenMenu(false)
-                           setOpenMenuColors(false)
+                        className="SelectedNotes_icon" 
+                        icon={faArchive} 
+                        onMouseOver={()=>
+                            {
+                            setOpenMenu(false)
+                            setOpenMenuColors(false)
+                            }
                         }
-                    }
-                    onClick={()=>
-                        {
-                            handleAllArchive()
+                        onClick={()=>
+                            {
+                                handleAllArchive()
+                            }
                         }
-                    }
-                />
+                    />
                 }
-                {window.location.pathname !=='/corbeille' && <FontAwesomeIcon
+                {window.location.pathname ==='/corbeille' ? '' : window.location.pathname ==='/libelle' ? '' :  <FontAwesomeIcon
                     className="SelectedNotes_icon" 
                     icon={faPalette} 
                     onMouseOver={()=>
@@ -400,16 +420,16 @@ const SelectedNotesComponent = () => {
                             handleAllDelete()
                         }
                     }> 
-                        {window.location.pathname ==='/corbeille' ? 'Supprimer définitivement' : 'Supprimer les notes'}
+                        {window.location.pathname ==='/corbeille' ? 'Supprimer définitivement' : window.location.pathname !=='/libelle' ? 'Supprimer les notes' : 'Supprimer les libellés'}
                     </button> 
                     {window.location.pathname ==='/corbeille' && 
                         <button 
                         onClick={handleRestaureAllNotes}
                         >Restaurer les notes</button>  }
                                 
-                    {window.location.pathname !=='/corbeille' && <button onClick={handleCopieAllNotes}>Effectuer une copie</button> }
+                    {window.location.pathname ==='/corbeille' ? '' : window.location.pathname ==='/libelle' ? <button style={{visibility : 'hidden'}}>Effectuer une copie</button> : <button onClick={handleCopieAllNotes}>Effectuer une copie</button> }
                     
-                    {window.location.pathname !=='/corbeille' && <button>Ajouter un libellé</button> }
+                    {window.location.pathname ==='/corbeille' ? '' : window.location.pathname ==='/libelle' ? '' : <button>Ajouter un libellé</button> }
                     
                 </div>
            </div>

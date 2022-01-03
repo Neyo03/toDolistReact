@@ -14,3 +14,17 @@
     width : 0px;
     pointer-events : none;
 }
+.Read_emptydata{
+    color: rgb(63, 63, 63);
+    font-size: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+    flex-direction: column;
+}
+.Read_emptydata>svg{
+    color: rgb(63, 63, 63);
+    font-size: 100px;
+    
+}

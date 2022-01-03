@@ -7,6 +7,8 @@ import { ReloadReadContext } from '../context/ReloadReadAfterActions';
 import SelectedNotesComponent from './SelectedNotes';
 import { UIdContext } from '../context/UIdContext';
 import LibelleFile from './LibelleFile';
+import { faBan, faFrown } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Read = () => {
     const [noteList, setNoteList]=useState([])
@@ -67,9 +69,12 @@ const Read = () => {
         <div className="Read">
 
             {
-                noteList && noteList.map((note,index )=>(
+                noteList.length>0 ? noteList.map((note,index )=>(
                     window.location.pathname !=="/libelle" ? <Display key={index} number={index} note={note} /> : <LibelleFile key={index} number={index} libelle={note}/>
-                )) 
+                )) : <div className='Read_emptydata'>
+                   <FontAwesomeIcon className="Libelle_icon" icon={faBan}/>
+                    Aucune donnée
+                </div>
             }
             <Message message={message.message} type={message.typeMessage} />
             <SelectedNotesComponent/>

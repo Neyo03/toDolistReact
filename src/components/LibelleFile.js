@@ -4,7 +4,7 @@ import React from 'react';
 
 const LibelleFile = ({number,libelle}) => {
     return (
-        <div className='Libelle_file'>
+        <div className='Libelle_file' id={libelle.id}>
              <FontAwesomeIcon className="Libelle_icon" icon={faFolder}/>
              {libelle.titre}
         </div>
