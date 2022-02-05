@@ -86,8 +86,8 @@ const SelectedNotesComponent = () => {
                         listSelectedNotes.push(e.target)
                     }
                 }
-                if (e.target.classList.contains ('Libelle_file') && pressing ) { 
-                    console.log(e.target.children[0].classList.add('Libelle_selected') );
+                if (e.target.classList.contains('Libelle_file') && pressing ) { 
+                    e.target.children[0].classList.add('Libelle_selected') 
                     if (!listSelectedNotes.includes(e.target)) {
                         listSelectedNotes.push(e.target)
                     }
@@ -135,7 +135,7 @@ const SelectedNotesComponent = () => {
                         color : note.color,
                         archive : !note.archive,
                         corbeille : note.corbeille, 
-                        dateNote: note.dateNote
+                        dateNote: note.dateNote,
                     }
                     if ( note.archive ) {
                         selectedNotes.length > 1 ? message.setMessage(selectedNotes.length+' notes restaurées') : message.setMessage(selectedNotes.length+' note restaurée')
@@ -178,7 +178,7 @@ const SelectedNotesComponent = () => {
                     color : note.color,
                     archive : false,
                     corbeille : !note.corbeille, 
-                    dateNote: note.dateNote
+                    dateNote: note.dateNote,
                 }
                 const notesDb =  firebase.database().ref('notesDb');
 
@@ -208,7 +208,6 @@ const SelectedNotesComponent = () => {
 
         for (let index = 0; index < selectedNotes.length; index++) {
             const noteDiv = selectedNotes[index];
-            console.log(noteDiv);
             noteDiv.style.opacity ="0"
             noteDiv.style.transition ="0.3s"
             let noteItem;
@@ -221,7 +220,6 @@ const SelectedNotesComponent = () => {
                     noteItem = firebase.database().ref('notesDbArchive').child(noteDiv.id)
                 }
                 else if (res.val() === null  &&  window.location.pathname ==='/libelle') {
-                    console.log('salut');
                     noteItem = firebase.database().ref('libelleDb').child(noteDiv.id)
                 }
                 else{
@@ -230,7 +228,6 @@ const SelectedNotesComponent = () => {
                 
                 noteItem.once('value', snapshot=>{
                     let note = snapshot.val();
-                    console.log(note);
                    
                     const nouvelleNote = {
                         uid : note.uid ,
@@ -239,8 +236,9 @@ const SelectedNotesComponent = () => {
                         color : note.color,
                         archive : false,
                         corbeille : !note.corbeille, 
-                        dateNote: note.dateNote
+                        dateNote: note.dateNote,
                     }
+                    
                     const notesDb = note.corbeille ? firebase.database().ref('notesDb') : firebase.database().ref('notesDbCorbeille')
                     if (window.location.pathname !=='/libelle' && !note.corbeille) {
                         notesDb.push(nouvelleNote)
@@ -324,7 +322,8 @@ const SelectedNotesComponent = () => {
                         color : note.color,
                         archive : note.archive,
                         corbeille : note.corbeille, 
-                        dateNote: note.dateNote
+                        dateNote: note.dateNote,
+                        libelle : note.libelle ? note.libelle : []
                     }
                     const notesDb = note.archive ? firebase.database().ref('notesDbArchive') : firebase.database().ref('notesDb')
 

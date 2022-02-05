@@ -20,6 +20,8 @@ const Display = ({note, number}) => {
     const today = new Date();
     const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
 
+
+
     useEffect(()=>{
         if (window.location.pathname ==="/corbeille" && note.dateNote+7 === date ) {
             let noteItem = firebase.database().ref('notesDbCorbeille').child(note.id);
@@ -28,6 +30,8 @@ const Display = ({note, number}) => {
         //Ajout du text de la note directement dans sa balise <p> pour que les <br> s'affiche correctement
        
         document.getElementsByClassName('textNote')[number].innerHTML = nl2br(note.text.substr(0, 500))
+
+        
         
     },[note, reload.reload])
 
@@ -50,7 +54,7 @@ const Display = ({note, number}) => {
             color : note.color,
             archive : !note.archive,
             corbeille : note.corbeille, 
-            dateNote: note.dateNote
+            dateNote: note.dateNote,
         }
         
         if ( note.archive ) {
@@ -69,7 +73,10 @@ const Display = ({note, number}) => {
         setTimeout(() => {
             reload.setReload(!reload.reload)
             noteItem.remove();
-            e.target.parentElement.parentElement.parentElement.style.opacity ="1"
+            if (e.target.parentElement.parentElement.parentElement) {
+                e.target.parentElement.parentElement.parentElement.style.opacity ="1"
+            }
+            
             
         }, 100);
     }
@@ -88,11 +95,9 @@ const Display = ({note, number}) => {
     return (
         <div className="Note" id={note.id} style={ note.color !== "default" ? { backgroundColor : note.color, transition: ".3s linear", border: "none"}: null} onMouseOver={()=>handleOver(number)} onMouseOut={()=>handleOver(number)} >
             {note.libelle && <div className='Note_libelle'>
-                <span>{note.libelle.length > 0 && note.libelle[0]}</span>
-                {note.libelle.length > 1 && <span> {note.libelle[1] }</span>}
-                {note.libelle.length > 2 && <span>{note.libelle[2]}</span>}
-                
-                
+                <span>{note.libelle.length > 0 && note.libelle[0].titre}</span>
+                {note.libelle.length > 1 && <span> {note.libelle[1].titre }</span>}
+                {note.libelle.length > 2 && <span>{note.libelle[2].titre}</span>}
                 {note.libelle.length > 3 ? <span>+{note.libelle.length-3}</span> : ''}
             </div>}
             <Link to={

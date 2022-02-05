@@ -20,37 +20,36 @@ const MenuEllipsV = ({note, className, type}) => {
         color : note.color,
         archive : false,
         corbeille : !note.corbeille, 
-        dateNote : note.dateNote
+        dateNote : note.dateNote,
     } 
     useEffect(()=>{
        const dbLibelle = firebase.database().ref('libelleDb');
-       dbLibelle.on('value', (snapshot) =>{
-        let previousList = snapshot.val()
-        console.log(snapshot.val());
-        let list =[];
-        for (let id in previousList) {
-            if (previousList[id].uid === uid) {
-                list.push({id,...previousList[id]})  
+        dbLibelle.on('value', (snapshot) =>{
+            let previousList = snapshot.val()
+            let list =[];
+            for (let id in previousList) {
+                if (previousList[id].uid === uid) {
+                    list.push({id,...previousList[id]})  
+                }
             }
-        }
-        setLibelleList(list) 
-    }) 
+            setLibelleList(list) 
+            
+        }) 
+
+        
+        
     },[])
+
     
     const deleteItem = (e)=>{
-
-       
-
         e.target.parentElement.parentElement.parentElement.style.opacity ="0"
         e.target.parentElement.parentElement.parentElement.style.transition ="0.3s"
         let noteItem = note.corbeille ? firebase.database().ref('notesDbCorbeille').child(note.id) : note.archive ? firebase.database().ref('notesDbArchive').child(note.id) : firebase.database().ref('notesDb').child(note.id);
-        
         
         const notesDb = note.corbeille ? firebase.database().ref('notesDb') : firebase.database().ref('notesDbCorbeille')
 
         !note.corbeille && notesDb.push(nouvelleNote)
         
-       
         e.target.parentElement.parentElement.parentElement.style.opacity ="1"
         setTimeout(() => {
             reload.setReload(!reload.reload)
@@ -71,8 +70,6 @@ const MenuEllipsV = ({note, className, type}) => {
             
         },100);
         e.stopPropagation()
-        
-     
     }
 
     const restaureItem = (e)=>{
@@ -106,7 +103,8 @@ const MenuEllipsV = ({note, className, type}) => {
             color : note.color,
             archive : note.archive,
             corbeille : note.corbeille,
-            dateNote: note.dateNote
+            dateNote: note.dateNote,
+            libelle : note.libelle ? note.libelle : []
         })
         message.setMessage('Note copiée.') 
         message.setTypeMessage("sucess")
@@ -127,18 +125,23 @@ const MenuEllipsV = ({note, className, type}) => {
         
     }
     function addLibelle(libelleItem) {
+        console.log(note);
         const noteItem = note.archive ? firebase.database().ref('notesDbArchive').child(note.id) : firebase.database().ref('notesDb').child(note.id);
         let libelle = note.libelle ? note.libelle : []
+        console.log(libelle);
+        // const find = libelle.find(findLibelle=>{
+        //     if (findLibelle.titre === libelleItem.titre ) {
+        //         message.setMessage('Libellé déjà existant.') 
+        //         message.setTypeMessage("error")
+        //         return true
+        //     }
+        // })
 
-        if (!libelle.includes(libelleItem.titre)) {
-            libelle.push(libelleItem.titre)
-            message.setMessage('Libellé ajouté.') 
-            message.setTypeMessage("sucess")
-        }
-        else{
-            message.setMessage('Libellé déjà existant.') 
-            message.setTypeMessage("error")
-        }
+        // if (!find) {
+        //     libelle.push({id :libelleItem.id, titre : libelleItem.titre})
+        //     message.setMessage('Libellé ajouté.') 
+        //     message.setTypeMessage("sucess")
+        // }
         noteItem.update({
             libelle : libelle
         })
@@ -175,6 +178,7 @@ const MenuEllipsV = ({note, className, type}) => {
                 >Restaurer la note</button>  }             
             {!note.corbeille && <button onClick={copieItem}>Effectuer une copie</button> }
             {!note.corbeille && <button onClick={(e)=>{
+                console.log(note);
                 document.getElementsByClassName('Menu_libelle')[0].classList.add('Menu_libelle_open')
             }}>Ajouter un libellé</button> }
             
@@ -182,11 +186,11 @@ const MenuEllipsV = ({note, className, type}) => {
         </div> : 
         <div onClick={(e)=>{handleClick(e)}} className={`Menu_libelle`} >
             <div>
-                {libelleList.map((libelleItem)=>(
+                {libelleList.length>0 ? libelleList.map((libelleItem)=>(
                    <span onClick={()=>{
                     addLibelle(libelleItem)
                    }}>{libelleItem.titre}</span> 
-                ))}
+                )) : 'Aucun libellée'}
             </div>
         </div>
 

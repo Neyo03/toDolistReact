@@ -90,6 +90,13 @@ const UpdatePage = () => {
                
         {data !==null && 
             <form className="Note_update_form" method="post">
+                {data.libelle && <div className='Note_libelle'>
+                 {data.libelle.map(libelle=>(
+                     <span>{libelle.titre}</span>
+                 ))}
+                
+                
+                </div>}
                 <input defaultValue={data.titre} placeholder="Titre" onKeyUp={handleKeyUp} onKeyDown={handleKeyDOWN} onChange={(e)=> {setTitreUpdate(e.target.value)}} type="text" />
                 <textarea 
                     onKeyUp={handleKeyUp} 

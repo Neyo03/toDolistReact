@@ -33,7 +33,7 @@ const Header = () => {
             e.stopPropagation()
             
             if (!e.target.classList.contains("Header_profil_user")){
-                // console.log(e.target.parentElement.parentElement.classList);
+
                 setOpenMenuUser(false)
             }
             if ( e.target.parentElement.parentElement.classList.contains('Header_profil_menu') || e.target.parentElement.classList.contains('Header_profil_menu') || e.target.classList.contains('Header_profil_menu') ||e.target.classList.contains('Header_profil_menu')) {

@@ -3,8 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import Read from '../components/Read';
 import Create from '../components/Create';
 import Burger from '../components/Burger';
-import MessageContext from '../context/MessageContext';
-import LoginPage from './LoginPage'
+
 import { useEffect } from 'react/cjs/react.development';
 
 const MainPage = () => {

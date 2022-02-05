@@ -52,10 +52,32 @@ const Read = () => {
         })
         dbMethod.on('value', (snapshot) =>{
             let previousList = snapshot.val()
-            console.log(snapshot.val());
             let list =[];
+           
             for (let id in previousList) {
+                
                 if (previousList[id].uid === uid) {
+
+                    if (previousList[id].libelle) {
+                        
+                        firebase.database().ref('libelleDb').on('value', (snapshot) =>{
+                            for (let j = 0; j < previousList[id].libelle.length; j++) {
+                                const elementTB = previousList[id].libelle[j];
+                                let noteItem =  firebase.database().ref('notesDb').child(id) 
+                                if (snapshot.val()) {
+                                    if (snapshot.val()[elementTB.id] === undefined) {
+                                        console.log(previousList[id].libelle);
+                                        previousList[id].libelle.splice(j, 1)
+                                        noteItem.update(previousList[id])
+                                    }
+                                }
+                                else{
+                                    previousList[id].libelle = []
+                                    noteItem.update(previousList[id])
+                                }
+                            } 
+                        })
+                    } 
                     list.push({id,...previousList[id]})  
                 }
             }

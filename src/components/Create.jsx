@@ -8,15 +8,14 @@ import MessageContext from '../context/MessageContext';
 import { ReloadReadContext } from '../context/ReloadReadAfterActions';
 
 const Create = () => {
-    const [titre, setTitre]  =useState('')
-    const [text, setText] =useState('')
+    const [titre, setTitre]  = useState('')
+    const [text, setText] = useState('')
     const uid = useContext(UIdContext)
     const message = useContext(MessageContext)
     const reload = useContext(ReloadReadContext)
 
     const today = new Date();
     const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-
 
     const createNote = (e)=>{
         

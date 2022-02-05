@@ -4,15 +4,12 @@ import InscriptionPage from './pages/InscriptionPage';
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import LoginPage from './pages/LoginPage';
 import Main from './pages/MainPage';
-import Create from './components/Create';
 import UpdatePage from './pages/UpdatePage';
 import { MessageProvider } from './context/MessageContext';
 import ArchivagePage from './pages/ArchivagePage';
 import Header from './components/Header';
 import CorbeillePage from './pages/CorbeillePage';
 import { ReloadReadProvider } from './context/ReloadReadAfterActions';
-import { useEffect } from 'react/cjs/react.development';
-import { faBorderStyle } from '@fortawesome/free-solid-svg-icons';
 import LibellePage from './pages/LibellePage';
 
 
